@@ -1,8 +1,11 @@
 <template>
   <div class="contests">
-    <div v-for="contest in contests" :key="contest.id">
-      <contest-card :contest="contest" @showDetail="showDetail"/>
-    </div>
+    <transition-group name="animate" appear>
+      <div v-for="contest in contests" :key="contest.id">
+        <contest-card :contest="contest" @showDetail="showDetail"/>
+      </div>
+    </transition-group>
+
   </div>
   <el-dialog
       v-model="dialogVisible"
@@ -96,6 +99,19 @@ export default {
   justify-content: space-evenly;
   align-content: center;
   flex-wrap: wrap;
+  @keyframes backInUp {
+    0%{
+      transform: translateY(10%) scale(0.9);
+      opacity: 0.8;
+    }
+    100%{
+      transform:translateX(0) scale(1);
+      opacity: 1;
+    }
+  }
+  .animate-enter-active{
+    animation: backInUp 0.8s;
+  }
 }
 .detail{
   display: flex;
