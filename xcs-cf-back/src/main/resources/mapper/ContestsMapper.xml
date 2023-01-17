@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.issja.mapper.ContestsMapper">
+
+    <select id="getUsersByContestDuring" resultType="java.util.Map">
+        select u.id id, u.name name, s.duringScore score
+        from xcs_cf_points.user u
+                 join xcs_cf_points.score s on u.id = s.uid
+        where s.cid = (select id from xcs_cf_points.contests c where c.name = #{name})
+          and s.duringScore > 0
+    </select>
+    <select id="getUsersByContestAfter" resultType="java.util.Map">
+        select u.id id, u.name name, s.afterScore score
+        from xcs_cf_points.user u
+                 join xcs_cf_points.score s on u.id = s.uid
+        where s.cid = (select id from xcs_cf_points.contests c where c.name = #{name})
+          and s.afterScore > 0
+    </select>
+</mapper>
