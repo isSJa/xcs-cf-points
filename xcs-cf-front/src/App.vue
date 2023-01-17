@@ -18,7 +18,7 @@ export default {
   },
   props: [],
   setup() {
-    const choose = ['add', 'show','contest']
+    const choose = ['add', 'student','contest']
     const router = useRouter();
     const handleClick = i => {
       router.push("/"+i)

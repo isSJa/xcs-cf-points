@@ -71,3 +71,32 @@ export const getContestAfterDetail=(name:string)=>{
         }
     })
 }
+//获取某一个用户的所有比赛信息
+export const getUserContests=(id:number)=>{
+    return http({
+        method:'get',
+        url:'/user/contests/'+id
+    })
+}
+//获取所有用户的所有比赛信息
+export const getAllUserContests=()=>{
+    return http({
+        method:'get',
+        url:'/user/contests'
+    })
+}
+//获取用户信息
+export const getUserInfo=(id:number)=>{
+    return http({
+        method:'get',
+        url:'/user/'+id
+    })
+}
+//修改用户信息
+export const updateUser=(json:string)=>{
+    return http({
+        method:'put',
+        url:'/user',
+        data:json
+    })
+}

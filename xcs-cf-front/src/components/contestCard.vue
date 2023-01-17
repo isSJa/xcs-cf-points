@@ -1,6 +1,5 @@
 <template>
   <el-tooltip
-      class="box-item"
       effect="light"
       content="点击查看详情"
       placement="top"
@@ -63,6 +62,7 @@ export default {
 }
 
 .bg {
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   background-color: #1ab6ff;
   width: 300px;
   height: 200px;

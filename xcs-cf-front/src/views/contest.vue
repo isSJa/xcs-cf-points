@@ -5,27 +5,27 @@
         <contest-card :contest="contest" @showDetail="showDetail"/>
       </div>
     </transition-group>
-
   </div>
   <el-dialog
       v-model="dialogVisible"
       :title="title"
-      width="800px">
+      width="800px"
+      style="font-weight: bold">
     <div class="detail">
       <div class="detailItem">
         <el-tag class="subTitle" size="large">DuringContest</el-tag>
         <el-table :data="detailDuring" style="width: 100%">
-          <el-table-column prop="id" label="id" width="100" />
-          <el-table-column prop="name" label="name" width="150" />
+          <el-table-column prop="id" label="id" width="100"/>
+          <el-table-column prop="name" label="name" width="150"/>
           <el-table-column prop="score" label="score" width="100"/>
         </el-table>
       </div>
       <div class="detailItem">
         <el-tag class="subTitle" size="large">AfterContest</el-tag>
         <el-table :data="detailAfter" style="width: 100%">
-          <el-table-column prop="id" label="id" width="100" />
-          <el-table-column prop="name" label="name" width="150" />
-          <el-table-column prop="score" label="score" width="100" />
+          <el-table-column prop="id" label="id" width="100"/>
+          <el-table-column prop="name" label="name" width="150"/>
+          <el-table-column prop="score" label="score" width="100"/>
         </el-table>
       </div>
     </div>
@@ -60,22 +60,22 @@ export default {
       contests.value = res.data.data
     })
     const dialogVisible = ref(false)
-    const title=ref('')
+    const title = ref('')
     const detailDuring = ref([])
     const detailAfter = ref([])
     const showDetail = (score) => {
-      dialogVisible.value=true
-      title.value="Detail of "+score.name
+      dialogVisible.value = true
+      title.value = "Detail of " + score.name
       getContestDuringDetail(score.name).then(res => {
         detailDuring.value = Object.values(res.data.data)
-        detailDuring.value.sort((a,b)=>{
-          return a.id-b.id
+        detailDuring.value.sort((a, b) => {
+          return a.id - b.id
         })
       })
       getContestAfterDetail(score.name).then(res => {
         detailAfter.value = Object.values(res.data.data)
-        detailAfter.value.sort((a,b)=>{
-          return a.id-b.id
+        detailAfter.value.sort((a, b) => {
+          return a.id - b.id
         })
       })
     }
@@ -100,26 +100,29 @@ export default {
   align-content: center;
   flex-wrap: wrap;
   @keyframes backInUp {
-    0%{
+    0% {
       transform: translateY(10%) scale(0.9);
       opacity: 0.8;
     }
-    100%{
-      transform:translateX(0) scale(1);
+    100% {
+      transform: translateX(0) scale(1);
       opacity: 1;
     }
   }
-  .animate-enter-active{
+
+  .animate-enter-active {
     animation: backInUp 0.8s;
   }
 }
-.detail{
+
+.detail {
   display: flex;
-  .detailItem{
-    font-weight: bold;
+
+  .detailItem {
     margin: 0 20px;
     width: 400px;
-    .subTitle{
+
+    .subTitle {
       margin: 0 auto 20px;
     }
   }

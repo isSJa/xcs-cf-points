@@ -7,9 +7,19 @@
                  left join xcs_cf_points.score s
                            on u.id = s.uid
         where name like concat('%', #{searchValue}, '%')
+           or u.id like concat('%', #{searchValue}, '%')
            or sno like concat('%', #{searchValue}, '%')
            or account like concat('%', #{searchValue}, '%')
         group by u.id
         order by u.id asc
+    </select>
+    <select id="getUserScores" resultType="com.issja.entity.Score">
+        select c.id cid, duringScore, afterScore, aNum
+        from contests c
+                 left join (select *
+                            from user u
+                                     join score s on u.id = s.uid
+                            where u.id = #{id}) temp
+                           on c.id = temp.cid
     </select>
 </mapper>

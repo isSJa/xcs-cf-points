@@ -8,9 +8,9 @@ const routes: Array<RouteRecordRaw> = [
     component:()=>import('@/views/add.vue')
   },
   {
-    name:'show',
-    path:'/show',
-    component:()=>import('@/views/show.vue')
+    name:'student',
+    path:'/student',
+    component:()=>import('@/views/student.vue')
   },
   {
     name:'contest',

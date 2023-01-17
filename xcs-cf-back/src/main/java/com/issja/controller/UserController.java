@@ -35,11 +35,13 @@ public class UserController {
         return Result.success(userService.list());
     }
 
+    // 获取某个用户信息
     @GetMapping("/{id}")
     public Result getOne(@PathVariable Integer id) {
         return Result.success(userService.getById(id));
     }
 
+    //增加用户
     @PostMapping()
     public Result addOne(@RequestBody User user) {
         boolean r = userService.save(user);
@@ -50,6 +52,7 @@ public class UserController {
         }
     }
 
+    // 修改用户信息
     @PutMapping()
     public Result modifyOne(@RequestBody User user) {
         boolean r = userService.updateById(user);
@@ -88,5 +91,17 @@ public class UserController {
             page = userService.getUserPage((int) page.getCurrent(), pageSize, searchValue);
         }
         return Result.success(page);
+    }
+
+    //获取某一个用户的所有比赛数据
+    @GetMapping("/contests/{id}")
+    public Result getUserScores(@PathVariable Integer id){
+        return Result.success(userService.getUserScores(id));
+    }
+
+    //获取所有用户的比赛信息
+    @GetMapping("/contests")
+    public Result getAllUserScores(){
+        return Result.success(userService.getAllUserScores());
     }
 }
