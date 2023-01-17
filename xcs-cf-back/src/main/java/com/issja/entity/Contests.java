@@ -36,5 +36,7 @@ public class Contests implements Serializable {
     @ApiModelProperty(value = "时间")
     private LocalDate time;
 
+    @ApiModelProperty(value = "题目总数")
+    private Integer total;
 
 }

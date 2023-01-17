@@ -37,4 +37,7 @@ public class Score implements Serializable {
     private Integer afterscore;
 
 
+    @ApiModelProperty(value = "A题数")
+    @TableField("aNum")
+    private Integer aNum;
 }

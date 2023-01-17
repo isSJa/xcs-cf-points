@@ -4,6 +4,7 @@
     <div class="flex">
       <!--  删除  -->
       <div class="tools-bar">
+        <el-button type="info">所有详情</el-button>
         <el-button>一键删除</el-button>
       </div>
       <!--  搜索  -->
@@ -18,7 +19,6 @@
         />
       </div>
     </div>
-
     <!--  表格内容  -->
     <div class="table-content">
       <el-table :data="user" stripe
@@ -26,7 +26,7 @@
                 :header-cell-style="headStyle"
                 :cell-style="rowStyle">
         <!--        排序-->
-        <el-table-column type="index" width="80" label="rank"/>
+        <el-table-column type="index" width="80" label="rank" v-if="isShowRank"/>
         <!--        复选框-->
         <el-table-column type="selection" width="100"/>
         <!--        id-->
@@ -95,6 +95,7 @@ export default {
     const total = ref(0)
     const maxNum=ref(0)
     const pageSizeArray = ref([10, 15, 20])
+    const isShowRank=ref(false)
     // 分页查询
     const getPage = () => {
       const value = searchValue.value === '' ? null : searchValue.value;
@@ -117,6 +118,7 @@ export default {
     // 分页相关操作
     const handleSizeChange = (val) => {
       pageSize.value = val;
+      isShowRank.value = pageSize.value === maxNum.value;
       getPage()
     }
     const handleCurrentChange = (val) => {
@@ -152,6 +154,7 @@ export default {
       headStyle,
       rowStyle,
       showDetail,
+      isShowRank,
     }
   }
 }

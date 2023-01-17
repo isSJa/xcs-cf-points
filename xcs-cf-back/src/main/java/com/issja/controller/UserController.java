@@ -32,8 +32,7 @@ public class UserController {
 
     @GetMapping()
     public Result getAll() {
-        userService.getAllUsers().forEach(System.out::println);
-        return Result.success(userService.getAllUsers());
+        return Result.success(userService.list());
     }
 
     @GetMapping("/{id}")
@@ -79,13 +78,6 @@ public class UserController {
         } else {
             return Result.error("批量删除失败！", null);
         }
-    }
-
-
-    @PostMapping("/search")
-    public Result getSearch(@RequestBody String searchValue) {
-        if (searchValue == null || searchValue.length() == 0) return Result.success();
-        return Result.success(userService.getSearch(searchValue));
     }
 
     // 分页+模糊查询

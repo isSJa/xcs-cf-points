@@ -18,18 +18,6 @@ import java.util.Map;
  */
 public interface IUserService extends IService<User> {
     /**
-     * 获取所有用户信息，包括分数
-     * @return
-     */
-    public List<User> getAllUsers();
-
-    /**
-     * 模糊查询
-     * @return
-     */
-    public List<User> getSearch(String searchValue);
-
-    /**
      * 分页+模糊查询
      * @param currentPage
      * @param pageSize

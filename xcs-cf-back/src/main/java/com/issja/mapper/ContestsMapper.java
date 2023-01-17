@@ -4,6 +4,8 @@ import com.issja.entity.Contests;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 import java.util.Map;
@@ -19,16 +21,24 @@ import java.util.Map;
 @Mapper
 public interface ContestsMapper extends BaseMapper<Contests> {
     /**
-     * 正式赛时间内情况
-     * @param contestName
+     * 正式赛时间内所有得分同学信息
+     * @param name
      */
     @MapKey("id")
-    public List<Map<String,Object>> getUsersByContestDuring(String contestName);
+    public List<Map<String,Object>> getUsersByContestDuring(String name);
 
     /**
-     * 赛后补题情况
-     * @param contestName
+     * 赛后补题所有得分同学信息
+     * @param name
      */
     @MapKey("id")
-    public List<Map<String,Object>>  getUsersByContestAfter(String contestName);
+    public List<Map<String,Object>>  getUsersByContestAfter(String name);
+
+    /**
+     * 获取某一个比赛的总赛题数
+     * @param name
+     * @return
+     */
+    @Select("select total,type from xcs_cf_points.contests where name=#{name}")
+    public Map<String,Object> getContestTotalAndType(@Param("name") String name);
 }

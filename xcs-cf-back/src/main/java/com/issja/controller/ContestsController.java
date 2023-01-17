@@ -28,16 +28,13 @@ public class ContestsController {
     @Autowired
     private IContestsService contestsService;
 
+    // 查找所有比赛信息
     @GetMapping()
     public Result getAll() {
         return Result.success(contestsService.list());
     }
 
-    @GetMapping("/{id}")
-    public Result getOne(@PathVariable Integer id) {
-        return Result.success(contestsService.getById(id));
-    }
-
+    // 添加一个比赛
     @PostMapping()
     public Result addOne(@RequestBody Contests contests) {
         boolean r = contestsService.save(contests);
@@ -48,51 +45,13 @@ public class ContestsController {
         }
     }
 
-    @PutMapping()
-    public Result modifyOne(@RequestBody Contests contests) {
-        boolean r = contestsService.updateById(contests);
-        if (r) {
-            return Result.success("比赛修改成功！", null);
-        } else {
-            return Result.error("比赛修改失败！", null);
-        }
-    }
-
-    @DeleteMapping("/{id}")
-    public Result deleteOne(@PathVariable Integer id) {
-        boolean r = contestsService.removeById(id);
-        if (r) {
-            return Result.success("比赛删除成功！", null);
-        } else {
-            return Result.error("比赛删除失败！", null);
-        }
-    }
-
-    @DeleteMapping()
-    public Result deleteMany(@RequestBody List<Integer> ids) {
-        boolean r = contestsService.removeByIds(ids);
-        if (r) {
-            return Result.success("批量删除成功！", null);
-        } else {
-            return Result.error("批量删除失败！", null);
-        }
-    }
-
-    @GetMapping("/{currentPage}/{pageSize}")
-    public Result getPage(@PathVariable Integer currentPage, @PathVariable Integer pageSize, Contests contests) {
-        LambdaQueryWrapper<Contests> lambdaQueryWrapper = new LambdaQueryWrapper<>();
-        lambdaQueryWrapper.like(Strings.isNotEmpty(contests.getName()), Contests::getName, contests.getName());
-        lambdaQueryWrapper.eq(contests.getType() != null, Contests::getType, contests.getType());
-        IPage<Contests> page = new Page<Contests>(currentPage, pageSize);
-        contestsService.page(page, lambdaQueryWrapper);
-        return Result.success(page);
-    }
-
+    // 获取某一比赛正式比赛时间内所用用户信息
     @GetMapping("/during")
     public Result getDuringDetail(@RequestParam String name){
         return Result.success(contestsService.getUsersByContestDuring(name));
     }
 
+    // 获取某一比赛赛后补题所有用户信息
     @GetMapping("/after")
     public Result getAfterDetail(@RequestParam String name){
         return Result.success(contestsService.getUsersByContestAfter(name));

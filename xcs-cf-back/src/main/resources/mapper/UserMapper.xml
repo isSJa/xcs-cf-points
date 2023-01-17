@@ -1,25 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.issja.mapper.UserMapper">
-
-    <select id="getAllUsers" resultType="com.issja.entity.User">
-        select u.id,name,sno,account
-        from xcs_cf_points.user u left join xcs_cf_points.score s
-        on u.id = s.uid
-        group by u.id
-        order by u.id asc
-    </select>
-    <select id="searchUser" resultType="com.issja.entity.User">
-        select u.id, name, sno, account
-        from xcs_cf_points.user u
-                 left join xcs_cf_points.score s
-                           on u.id = s.uid
-        where name like concat('%', #{searchValue},'%')
-           or sno like concat('%', #{searchValue},'%')
-           or account like concat('%', #{searchValue},'%')
-        group by u.id
-        order by u.id asc
-    </select>
     <select id="getUserPage" resultType="java.util.Map">
         select u.id id, name, sno, account, ifnull(sum(duringScore), 0) + ifnull(sum(afterScore), 0) score
         from xcs_cf_points.user u

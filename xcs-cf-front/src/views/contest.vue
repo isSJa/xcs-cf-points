@@ -90,11 +90,11 @@ export default {
 
 <style scoped lang="scss">
 .contests {
-  width: 90%;
+  width: 95%;
   margin: 0 auto;
   display: flex;
-  //justify-content: center;
-  align-content: space-between;
+  justify-content: space-evenly;
+  align-content: center;
   flex-wrap: wrap;
 }
 .detail{

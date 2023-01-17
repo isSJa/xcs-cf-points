@@ -37,4 +37,10 @@ public interface ScoreMapper extends BaseMapper<Score> {
      */
     public void updateScore(Map<String,Object> score);
 
+    /**
+     * 获取A题数
+     * @param account
+     * @param name
+     */
+    public int getScoreANum(@Param("account") String account, @Param("name") String name);
 }

@@ -25,15 +25,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Autowired
     private UserMapper userMapper;
-    @Override
-    public List<User> getAllUsers() {
-        return userMapper.getAllUsers();
-    }
-
-    @Override
-    public List<User> getSearch(String searchValue) {
-        return userMapper.searchUser(searchValue);
-    }
 
     @Override
     public Page<Map<String,Object>> getUserPage(int currentPage,int pageSize,String searchValue) {
