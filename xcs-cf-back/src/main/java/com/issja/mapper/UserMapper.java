@@ -20,7 +20,6 @@ import java.util.Map;
  * @author issja
  * @since 2023-01-06
  */
-@Mapper
 public interface UserMapper extends BaseMapper<User> {
     /**
      * 模糊查询+分页查询

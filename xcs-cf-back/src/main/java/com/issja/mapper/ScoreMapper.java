@@ -15,7 +15,6 @@ import java.util.Map;
  * @author issja
  * @since 2023-01-06
  */
-@Mapper
 public interface ScoreMapper extends BaseMapper<Score> {
     /**
      * 添加分数（之前尚未计入过）

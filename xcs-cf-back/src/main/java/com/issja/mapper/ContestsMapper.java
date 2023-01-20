@@ -18,7 +18,6 @@ import java.util.Map;
  * @author issja
  * @since 2023-01-06
  */
-@Mapper
 public interface ContestsMapper extends BaseMapper<Contests> {
     /**
      * 正式赛时间内所有得分同学信息

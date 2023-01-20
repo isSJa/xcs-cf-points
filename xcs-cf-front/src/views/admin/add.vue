@@ -289,12 +289,14 @@ export default {
 .add-bg::before {
   content: "";
   position: absolute;
-  width: 100%;
+  width: 105%;
   height: 100%;
-  top: 0;
-  left: 0;
-  background: url(../assets/xcs-blue.png) center / cover no-repeat;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  background: url(../../assets/xcs-blue.png) center / cover no-repeat;
   filter: blur(10px);
+  margin: -35px 0;
   z-index: -1;
 }
 
@@ -302,6 +304,8 @@ export default {
   box-sizing: border-box;
   margin: 0;
   padding: 50px;
+  height:103%;
+  width: 100%;
   //毛玻璃
   background: inherit;
   position: relative;

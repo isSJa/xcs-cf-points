@@ -16,7 +16,7 @@
             placeholder="请输入搜索内容(id、姓名、学号或cf账号)"
             style="width: 500px;"
             :suffix-icon="Search"
-            @blur="handleSearch"
+            @change="handleSearch"
         />
       </div>
     </div>
@@ -28,7 +28,7 @@
                 :cell-style="rowStyle"
                 @row-click="handleClick">
         <!--        排序-->
-        <el-table-column type="index" width="80" label="rank" v-if="isShowRank"/>
+        <el-table-column type="index" width="100" label="rank" v-if="isShowRank"/>
         <!--        复选框-->
 <!--        <el-table-column type="selection" width="100"/>-->
         <!--        id-->
@@ -38,13 +38,13 @@
         <el-table-column prop="name" label="name" width="250"
                          sortable/>
         <!--        学号-->
-        <el-table-column prop="sno" label="sno" width="250"
+        <el-table-column prop="sno" label="sno" width="300"
                          sortable/>
         <!--        账号-->
-        <el-table-column prop="account" label="account" width="250"
+        <el-table-column prop="account" label="account" width="300"
                          sortable/>
         <!--        分数-->
-        <el-table-column prop="score" label="score" width="250"
+        <el-table-column prop="score" label="score" width="300"
                          sortable/>
         <!--        操作-->
         <el-table-column label="operations">
@@ -102,7 +102,7 @@
         :title="allDetailDialogTitle"
         width="800px"
         style="position: relative">
-      <div v-for="d in allDetail" :key="d.uid" class="flex">
+      <div v-for="d in allDetail" :key="d.uid" class="all-flex">
         <div class="uname">{{ d.uname }}</div>
         <div class="doList">
           <div v-for="(dd,index) in d.doList" :key="dd">
@@ -391,7 +391,7 @@ export default {
 }
 
 .allDetail {
-  .flex {
+  .all-flex {
     display: flex;
     padding: 0 50px;
 
