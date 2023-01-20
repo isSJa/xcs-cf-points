@@ -6,7 +6,7 @@
       <!--  详情和删除  -->
       <div class="tools-bar">
         <el-button type="danger" @click="showAllDetail">所有详情</el-button>
-<!--        <el-button>一键删除</el-button>-->
+        <!--        <el-button>一键删除</el-button>-->
       </div>
       <!--  搜索  -->
       <div class="search">
@@ -30,7 +30,7 @@
         <!--        排序-->
         <el-table-column type="index" width="100" label="rank" v-if="isShowRank"/>
         <!--        复选框-->
-<!--        <el-table-column type="selection" width="100"/>-->
+        <!--        <el-table-column type="selection" width="100"/>-->
         <!--        id-->
         <el-table-column prop="id" label="id" width="100"
                          sortable/>
@@ -51,7 +51,7 @@
           <template #default>
             <el-button type="success" size="small">detail</el-button>
             <el-button type="warning" size="small">edit</el-button>
-<!--            <el-button type="danger" size="small">delete</el-button>-->
+            <el-button type="danger" size="small">delete</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -141,10 +141,21 @@
       </el-form>
     </el-dialog>
   </div>
+  <!--  删除用户-->
+  <div class="delete">
+
+  </div>
 </template>
 
 <script>
-import {getAllStudentContests, getStudentContests, getStudentInfo, getStudentPage, updateStudent} from "@/api";
+import {
+  deleteStudent,
+  getAllStudentContests,
+  getStudentContests,
+  getStudentInfo,
+  getStudentPage,
+  updateStudent
+} from "@/api";
 import {ref} from "vue";
 import 'element-plus/dist/index.css'
 import {
@@ -156,7 +167,8 @@ import {
   ElTable,
   ElTableColumn,
   ElTag,
-  ElTooltip
+  ElTooltip,ElMessageBox,
+  ElLoading
 } from "element-plus";
 import {Search} from '@element-plus/icons-vue'
 
@@ -172,7 +184,7 @@ export default {
     ElTag,
     ElTooltip,
     ElForm,
-    ElFormItem
+    ElFormItem,
   },
   setup() {
     const allUser = ref({})
@@ -237,10 +249,9 @@ export default {
         editUser(row.id)
       } else if (type === 'detail') {
         showDetail(row.id);
+      } else if (type === 'delete') {
+        deleteUser(row.id)
       }
-      // else if (type === 'delete') {
-      //   console.log('delete')
-      // }
     }
     // 显示详情
     const totalScore = ref(0)//某一个用户的总分
@@ -252,10 +263,11 @@ export default {
     const allDetailDialogTitle = ref('The Details of all people')
     // 显示所有用户详情
     const showAllDetail = () => {
-      allDetailDialogVisible.value = true;
+      const loadingInstance = ElLoading.service({ fullscreen: true })
       getAllStudentContests().then(res => {
+        loadingInstance.close()
         allDetail.value = res.data.data
-        console.log(allDetail.value)
+        allDetailDialogVisible.value = true;
       })
     }
     // 显示某一个用户的详情
@@ -287,26 +299,47 @@ export default {
       })
     }
     const cancelEdit = () => {
-      editDialogVisible.value=false
+      editDialogVisible.value = false
+    }
+    const showMsg=(res)=>{
+      if (res.data.code === 200) {
+        ElMessage({
+          showClose: true,
+          message: res.data.msg,
+          type: 'success',
+        })
+        editDialogVisible.value = false
+        getPage()
+      } else {
+        ElMessage({
+          showClose: true,
+          message: res.data.msg,
+          type: 'error',
+        })
+      }
     }
     const confirmEdit = () => {
-      updateStudent(JSON.stringify(userInfo.value)).then(res=>{
-        if (res.data.code === 200) {
-          ElMessage({
-            showClose: true,
-            message: res.data.msg,
-            type: 'success',
-          })
-          editDialogVisible.value=false
-          getPage()
-        } else {
-          ElMessage({
-            showClose: true,
-            message: res.data.msg,
-            type: 'error',
-          })
-        }
+      updateStudent(JSON.stringify(userInfo.value)).then(res => {
+        showMsg(res)
       })
+    }
+    // 删除用户
+    const deleteUser = (id) => {
+      ElMessageBox.confirm(
+          '确认删除该社员所有信息?',
+          '',
+          {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }
+      )
+          .then(() => {
+            deleteStudent(id).then(res=>{
+              showMsg(res)
+            })
+          })
+      console.log('delete')
     }
     return {
       currentPage,

@@ -62,8 +62,6 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     public List<AllStudentContestsDetail> getAllStudentScores() {
         Integer studentCount = studentMapper.selectCount(null);
         Integer contestCount = contestsMapper.selectCount(null);
-        // TODO:只为测试，之后记得删掉
-        contestCount=5;
         List<AllStudentContestsDetail> allstudentContestsDetailList = new ArrayList<>();
         for (int i = 1; i <= studentCount; i++) {
             AllStudentContestsDetail allstudentContestsDetail = new AllStudentContestsDetail();

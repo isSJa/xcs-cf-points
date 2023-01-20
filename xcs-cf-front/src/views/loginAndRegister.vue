@@ -1,24 +1,26 @@
 <template>
   <div class="main-box">
     <div :class="['container', 'container-register', { 'is-txl': isLogin }]">
-      <form>
+      <form @keyup.enter="register">
         <h2 class="title">Create Account</h2>
-        <span class="text">or use email for registration</span>
-        <input class="form__input" type="text" placeholder="Name"/>
-        <input class="form__input" type="text" placeholder="Email"/>
-        <input class="form__input" type="password" placeholder="Password"/>
-        <div class="primary-btn">立即注册</div>
+        <span class="text">Fill in the form below to register</span>
+        <input class="form__input" type="text" placeholder="用户名" v-model="registerForm.username"/>
+        <input class="form__input" type="text" placeholder="邮箱" v-model="registerForm.email"/>
+        <input class="form__input" type="password" placeholder="密码需在6-12位，且含数字和英文字母"
+               v-model="registerForm.password"/>
+        <input class="form__input" type="password" placeholder="再次确认密码" v-model="registerForm.confirmPassword"/>
+        <div class="primary-btn" @click="register">立即注册</div>
       </form>
     </div>
     <div
         :class="['container', 'container-login', { 'is-txl is-z200': isLogin }]"
     >
-      <form>
+      <form @keyup.enter="login">
         <h2 class="title">Sign in to Website</h2>
-        <span class="text">or use email for registration</span>
-        <input class="form__input" type="text" placeholder="Email"/>
-        <input class="form__input" type="password" placeholder="Password"/>
-        <div class="primary-btn">立即登录</div>
+        <span class="text">Use username or email to login</span>
+        <input class="form__input" type="text" placeholder="Account" v-model="loginForm.account"/>
+        <input class="form__input" type="password" placeholder="Password" v-model="loginForm.password"/>
+        <div class="primary-btn" @click="login">立即登录</div>
       </form>
     </div>
     <div :class="['switch', { login: isLogin }]">
@@ -42,25 +44,97 @@
 </template>
 
 <script>
-import {ref} from "vue";
+import 'element-plus/dist/index.css'
+import {reactive, ref} from "vue";
+import {ElMessage} from "element-plus";
+import {userLogin, userRegister} from "@/api";
+import {useRouter} from "vue-router";
+
 export default {
   name: 'loginBox',
+  components: {},
   setup() {
-    const isLogin = ref(false)
-    const loginForm = ref({
-      email: '',
+    const isLogin = ref(true)
+    const loginForm = reactive({
+      account: '',
       password: '',
     })
-    const registerForm = {
-      name: '',
+    const registerForm = reactive({
+      username: '',
       email: '',
       password: '',
+      confirmPassword: ''
+    })
+    const showMsg = (msg, type) => {
+      ElMessage({
+        showClose: true,
+        message: msg,
+        type: type,
+      })
     }
-    const login=()=>{
-      console.log('login')
+    const router=useRouter();
+    const login = () => {
+      // 信息不完整
+      for (let item in loginForm) {
+        if (loginForm[item] === '') {
+          showMsg("登录信息不完整！", "error");
+          return;
+        }
+      }
+      // 登录验证
+      const json=JSON.stringify(loginForm)
+      userLogin(json).then(res=>{
+        let type
+        if(res.data.code===200)
+          type='success'
+        else
+          type='error'
+        showMsg(res.data.msg,type)
+        if(type==='success'){
+          const user=res.data.data
+          window.sessionStorage.setItem('user',JSON.stringify(user))
+          if(user.type===0)
+            router.push("/user")
+          else
+            router.push("/admin")
+        }
+      })
     }
-    const register=()=>{
-      console.log('register')
+    const register = () => {
+      // 信息不完整
+      for (let item in registerForm) {
+        if (registerForm[item] === '') {
+          showMsg("注册信息不完整！", "error");
+          return;
+        }
+      }
+      // 密码规则验证
+      const pwd = registerForm.password;
+      const conPwd = registerForm.confirmPassword;
+      let re = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/
+      if (!re.test(pwd)) {
+        showMsg("密码需在6-12位，且含数字和英文字母", "error")
+        return;
+      }
+      // 密码是否一致
+      if (pwd !== conPwd) {
+        showMsg("两次密码不一致！", "error")
+        return;
+      }
+      // 注册
+      const json = JSON.stringify(registerForm)
+      userRegister(json).then(res => {
+        let type
+        if (res.data.code === 200) {
+          type = 'success'
+        } else {
+          type = 'error'
+        }
+        showMsg(res.data.msg, type)
+        if (type === 'success') {
+          isLogin.value = !isLogin.value
+        }
+      })
     }
 
     return {
@@ -80,7 +154,7 @@ export default {
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%,-50%);
+  transform: translate(-50%, -50%);
   width: 1000px;
   min-width: 1000px;
   min-height: 600px;
@@ -142,6 +216,22 @@ export default {
         &::placeholder {
           color: #a0a5a8;
         }
+      }
+
+      .form__radio {
+        width: 350px;
+        height: 40px;
+        margin: 4px 0;
+        padding-left: 25px;
+        font-size: 13px;
+        line-height: 40px;
+        letter-spacing: 0.15px;
+        border: none;
+        outline: none;
+        background-color: #ecf0f3;
+        transition: 0.25s ease;
+        border-radius: 8px;
+        //box-shadow: inset 2px 2px 4px #d1d9e6, inset -2px -2px 4px #f9f9f9;
       }
     }
   }

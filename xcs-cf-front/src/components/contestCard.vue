@@ -67,7 +67,7 @@ export default {
   width: 300px;
   height: 200px;
   border-radius: 10px;
-  margin: 10px;
+  margin: 15px;
   padding: 20px;
   font-weight: bold;
   position: relative;

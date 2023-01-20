@@ -1,28 +1,34 @@
 <template>
-  <router-view />
+  <router-view/>
 </template>
 
 <script lang="ts">
-import userIndex from "@/views/user/userIndex.vue";
+import userIndex from "@/views/user/index.vue";
 import {ref} from "vue";
 import {useRouter} from "vue-router";
+
 export default {
   name: "app",
-  components:{
-  },
+  components: {},
   setup() {
-    const type=ref('admin')
-    const router=useRouter()
-    router.push(type.value)
-    return {
-
+    const router = useRouter()
+    const user = window.sessionStorage.getItem("user")
+    if (user == null)
+      router.push('login-and-register')
+    else {
+      const userObject = JSON.parse(user)
+      if (userObject.type === 1)
+        router.push('admin')
+      else
+        router.push('user')
     }
+    return {}
   }
 }
 </script>
 
 <style lang="scss">
-body{
+body {
   margin: 0;
   padding: 0;
 }

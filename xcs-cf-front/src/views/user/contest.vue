@@ -96,8 +96,6 @@ export default {
   width: 95%;
   margin: 0 auto;
   display: flex;
-  justify-content: space-evenly;
-  align-content: center;
   flex-wrap: wrap;
   @keyframes backInUp {
     0% {

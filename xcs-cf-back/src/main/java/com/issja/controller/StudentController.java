@@ -41,9 +41,9 @@ public class StudentController {
     public Result addOne(@RequestBody Student student) {
         boolean r = studentService.save(student);
         if (r) {
-            return Result.success("用户添加成功！", null);
+            return Result.success("添加社员成功！", null);
         } else {
-            return Result.error("用户添加失败！", null);
+            return Result.error("添加社员失败！", null);
         }
     }
 
@@ -52,29 +52,20 @@ public class StudentController {
     public Result modifyOne(@RequestBody Student student) {
         boolean r = studentService.updateById(student);
         if (r) {
-            return Result.success("用户修改成功！", null);
+            return Result.success("修改社员信息成功！", null);
         } else {
-            return Result.error("用户修改失败！", null);
+            return Result.error("修改社员信息失败！", null);
         }
     }
 
+    // 删除
     @DeleteMapping("/{id}")
     public Result deleteOne(@PathVariable Integer id) {
         boolean r = studentService.removeById(id);
         if (r) {
-            return Result.success("用户删除成功！", null);
+            return Result.success("删除社员成功！", null);
         } else {
-            return Result.error("用户删除失败！", null);
-        }
-    }
-
-    @DeleteMapping()
-    public Result deleteMany(@RequestBody List<Integer> ids) {
-        boolean r = studentService.removeByIds(ids);
-        if (r) {
-            return Result.success("批量删除成功！", null);
-        } else {
-            return Result.error("批量删除失败！", null);
+            return Result.error("删除社员失败！", null);
         }
     }
 

@@ -50,8 +50,6 @@
         <el-table-column label="operations">
           <template #default>
             <el-button type="success" size="small">detail</el-button>
-            <el-button type="warning" size="small">edit</el-button>
-<!--            <el-button type="danger" size="small">delete</el-button>-->
           </template>
         </el-table-column>
       </el-table>
@@ -117,30 +115,6 @@
       </div>
     </el-dialog>
   </div>
-  <!--  编辑用户信息-->
-  <div class="edit">
-    <el-dialog
-        v-model="editDialogVisible"
-        :title="editDialogTitle"
-        width="500px"
-        style="position: relative;height: 280px">
-      <el-form :model="userInfo" label-width="80px">
-        <el-form-item label="name">
-          <el-input v-model="userInfo.name"/>
-        </el-form-item>
-        <el-form-item label="sno">
-          <el-input v-model="userInfo.sno"/>
-        </el-form-item>
-        <el-form-item label="account">
-          <el-input v-model="userInfo.account"/>
-        </el-form-item>
-        <div style="position: absolute;right: 20px">
-          <el-button @click="cancelEdit">取消</el-button>
-          <el-button type="primary" @click="confirmEdit">确认</el-button>
-        </div>
-      </el-form>
-    </el-dialog>
-  </div>
 </template>
 
 <script>
@@ -151,7 +125,7 @@ import {
   ElButton,
   ElDialog,
   ElForm, ElFormItem,
-  ElInput, ElMessage,
+  ElInput, ElLoading, ElMessage,
   ElPagination,
   ElTable,
   ElTableColumn,
@@ -170,9 +144,7 @@ export default {
     ElInput,
     ElDialog,
     ElTag,
-    ElTooltip,
-    ElForm,
-    ElFormItem
+    ElTooltip
   },
   setup() {
     const allUser = ref({})
@@ -230,17 +202,8 @@ export default {
       }
     }
     // operate
-    const handleClick = (row, column, event) => {
-      // console.log(row)
-      const type = event.target.outerText;
-      if (type === 'edit') {
-        editUser(row.id)
-      } else if (type === 'detail') {
-        showDetail(row.id);
-      }
-      // else if (type === 'delete') {
-      //   console.log('delete')
-      // }
+    const handleClick = (row) => {
+      showDetail(row.id)
     }
     // 显示详情
     const totalScore = ref(0)//某一个用户的总分
@@ -252,10 +215,11 @@ export default {
     const allDetailDialogTitle = ref('The Details of all people')
     // 显示所有用户详情
     const showAllDetail = () => {
-      allDetailDialogVisible.value = true;
+      const loadingInstance = ElLoading.service({ fullscreen: true })
       getAllStudentContests().then(res => {
+        loadingInstance.close()
         allDetail.value = res.data.data
-        console.log(allDetail.value)
+        allDetailDialogVisible.value = true;
       })
     }
     // 显示某一个用户的详情
@@ -269,43 +233,6 @@ export default {
       getStudentContests(id).then(res => {
         detailDialogVisible.value = true
         detail.value = res.data.data
-      })
-    }
-    // 编辑
-    const editDialogVisible = ref(false)
-    const editDialogTitle = ref('')
-    const userInfo = ref({})
-    const editUser = id => {
-      editDialogTitle.value = 'Edit ' +
-          allUser.value[id - 1].account +
-          " - " +
-          allUser.value[id - 1].name +
-          allUser.value[id - 1].sno;
-      getStudentInfo(id).then(res => {
-        editDialogVisible.value = true;
-        userInfo.value = res.data.data
-      })
-    }
-    const cancelEdit = () => {
-      editDialogVisible.value=false
-    }
-    const confirmEdit = () => {
-      updateStudent(JSON.stringify(userInfo.value)).then(res=>{
-        if (res.data.code === 200) {
-          ElMessage({
-            showClose: true,
-            message: res.data.msg,
-            type: 'success',
-          })
-          editDialogVisible.value=false
-          getPage()
-        } else {
-          ElMessage({
-            showClose: true,
-            message: res.data.msg,
-            type: 'error',
-          })
-        }
       })
     }
     return {
@@ -327,16 +254,11 @@ export default {
       detailDialogTitle,
       allDetailDialogVisible,
       allDetailDialogTitle,
-      editDialogVisible,
-      editDialogTitle,
       detail,
       allDetail,
       handleClick,
       totalScore,
       showAllDetail,
-      userInfo,
-      cancelEdit,
-      confirmEdit
     }
   }
 }

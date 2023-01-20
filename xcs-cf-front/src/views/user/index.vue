@@ -4,19 +4,18 @@
       <!--      头部-->
       <el-header class="head">
         <div class="img-box">
-          <img src="../../assets/xcs-cyan.png" alt="" :class="isCollapse?'img-small':'img-big'" @click="changeNav">
+          <img src="../../assets/xcs-cyan.png" alt="" class="img-big" @click="moveToIndex">
         </div>
         <div class="avatar">
           <el-dropdown @command="handleCommand">
-            <el-avatar :size="50" :src="imgUrl"/>
+            <el-avatar :size="50" :src="user.imgUrl"/>
             <template #dropdown>
               <el-dropdown-menu>
-                <el-dropdown-item command="mine">个人中心</el-dropdown-item>
+                <el-dropdown-item command="user/mine">个人中心</el-dropdown-item>
                 <el-dropdown-item command="login-and-register" divided>退出登录</el-dropdown-item>
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-
         </div>
       </el-header>
       <el-container class="content">
@@ -29,17 +28,11 @@
           >
             <el-menu-item index="1">
               <el-icon>
-                <Plus/>
-              </el-icon>
-              <template #title>ADD</template>
-            </el-menu-item>
-            <el-menu-item index="2">
-              <el-icon>
                 <User/>
               </el-icon>
               <template #title>社员</template>
             </el-menu-item>
-            <el-menu-item index="3">
+            <el-menu-item index="2">
               <el-icon>
                 <Collection/>
               </el-icon>
@@ -74,9 +67,15 @@ import {
 import MainMain from "@/main.vue";
 import {ref} from "vue";
 import {useRouter} from "vue-router";
+import router from "@/router";
 
 export default {
   name: "adminIndex",
+  methods: {
+    router() {
+      return router
+    }
+  },
   components: {
     MainMain,
     ElContainer,
@@ -94,26 +93,49 @@ export default {
   },
   setup() {
     const isCollapse = ref(false)
-    const urls = ['', 'add', 'student', 'contest']
-    const imgUrl =
-        'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+    const urls = ['', 'student', 'contest']
+    const storage = sessionStorage.getItem('user')
+    let user = null
+    if (storage != null)
+      user = JSON.parse(storage)
+    const defaultImgUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+    if (user.imgurl === null || user.imgurl === '')
+      user.imgurl = defaultImgUrl
+    else
+      user.imgurl = 'http://localhost:8312' + user.imgurl
     const changeNav = () => {
       isCollapse.value = !isCollapse.value
     }
     const router = useRouter()
+    const defaultUrl = '/user/welcome'
+    router.push(defaultUrl)
     const handleSelect = (index: number) => {
-      let url = '/admin/' + urls[index]
+      let url = '/user/' + urls[index]
       router.push(url);
     }
     const handleCommand = (command: string) => {
-      router.push('/'+command)
+      if(command==='login-and-register'){
+        sessionStorage.removeItem('user')
+      }
+      router.push('/' + command)
+    }
+    const moveToIndex = () => {
+      let nav = document.querySelector('.nav-menu');
+      if (nav != null) {
+        let lis = nav.children;
+        for (let i = 0; i < lis.length; i++) {
+          lis[i].className = 'el-menu-item'
+        }
+      }
+      router.push(defaultUrl)
     }
     return {
       isCollapse,
       changeNav,
       handleSelect,
-      imgUrl,
-      handleCommand
+      user,
+      handleCommand,
+      moveToIndex,
     }
   }
 }
@@ -124,11 +146,11 @@ export default {
   height: 80px;
   position: relative;
   border-bottom: solid 1px #dbdee5;
-  position: relative;
 
   .img-box {
     width: 150px;
     height: 80px;
+    cursor: pointer;
 
     .img-big {
       width: 120px;
@@ -144,7 +166,8 @@ export default {
       transition: all 300ms;
     }
   }
-  .avatar{
+
+  .avatar {
     position: absolute;
     right: 0;
     top: 15px;
@@ -161,6 +184,19 @@ export default {
     .nav-menu {
       min-height: 400px;
       font-weight: bold;
+
+      .change {
+        color: #646464;
+        text-align: center;
+        margin-top: 20px;
+        width: 100%;
+        height: 200px;
+        cursor: pointer;
+      }
+
+      .change :hover {
+        background-color: #ecf5ff;
+      }
     }
   }
 
