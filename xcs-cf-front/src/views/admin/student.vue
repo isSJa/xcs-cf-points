@@ -144,7 +144,7 @@
 </template>
 
 <script>
-import {getAllUserContests, getUserContests, getUserInfo, getUserPage, updateUser} from "@/api";
+import {getAllStudentContests, getStudentContests, getStudentInfo, getStudentPage, updateStudent} from "@/api";
 import {ref} from "vue";
 import 'element-plus/dist/index.css'
 import {
@@ -187,7 +187,7 @@ export default {
     // 分页查询
     const getPage = () => {
       const value = searchValue.value === '' ? null : searchValue.value;
-      getUserPage(currentPage.value, pageSize.value, value).then(res => {
+      getStudentPage(currentPage.value, pageSize.value, value).then(res => {
         user.value = res.data.data.records;
         total.value = res.data.data.total;
         if (total.value > maxNum.value)
@@ -200,7 +200,7 @@ export default {
     // 初始化页面
     getPage()
     // 获取所有用户信息
-    getUserPage(1, 100).then(res => {
+    getStudentPage(1, 100).then(res => {
       allUser.value = res.data.data.records;
     })
     // 分页+模糊查询
@@ -253,7 +253,7 @@ export default {
     // 显示所有用户详情
     const showAllDetail = () => {
       allDetailDialogVisible.value = true;
-      getAllUserContests().then(res => {
+      getAllStudentContests().then(res => {
         allDetail.value = res.data.data
         console.log(allDetail.value)
       })
@@ -266,7 +266,7 @@ export default {
           " - " +
           allUser.value[id - 1].name +
           allUser.value[id - 1].sno;
-      getUserContests(id).then(res => {
+      getStudentContests(id).then(res => {
         detailDialogVisible.value = true
         detail.value = res.data.data
       })
@@ -281,7 +281,7 @@ export default {
           " - " +
           allUser.value[id - 1].name +
           allUser.value[id - 1].sno;
-      getUserInfo(id).then(res => {
+      getStudentInfo(id).then(res => {
         editDialogVisible.value = true;
         userInfo.value = res.data.data
       })
@@ -290,7 +290,7 @@ export default {
       editDialogVisible.value=false
     }
     const confirmEdit = () => {
-      updateUser(JSON.stringify(userInfo.value)).then(res=>{
+      updateStudent(JSON.stringify(userInfo.value)).then(res=>{
         if (res.data.code === 200) {
           ElMessage({
             showClose: true,

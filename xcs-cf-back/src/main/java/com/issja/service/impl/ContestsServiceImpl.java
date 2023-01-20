@@ -25,12 +25,12 @@ public class ContestsServiceImpl extends ServiceImpl<ContestsMapper, Contests> i
     private ContestsMapper contestsMapper;
 
     @Override
-    public List<Map<String, Object>> getUsersByContestDuring(String contestName) {
-        return contestsMapper.getUsersByContestDuring(contestName);
+    public List<Map<String, Object>> getStudentsByContestDuring(String contestName) {
+        return contestsMapper.getStudentsByContestDuring(contestName);
     }
 
     @Override
-    public List<Map<String, Object>> getUsersByContestAfter(String contestName) {
-        return contestsMapper.getUsersByContestAfter(contestName);
+    public List<Map<String, Object>> getStudentsByContestAfter(String contestName) {
+        return contestsMapper.getStudentsByContestAfter(contestName);
     }
 }

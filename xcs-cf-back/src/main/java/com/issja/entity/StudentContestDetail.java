@@ -8,7 +8,7 @@ import lombok.Data;
  * @Time ： 2023/1/17 16:44
  **/
 @Data
-public class UserContestDetail {
+public class StudentContestDetail {
     //比赛的id
     private Integer cid;
     //比赛的名字

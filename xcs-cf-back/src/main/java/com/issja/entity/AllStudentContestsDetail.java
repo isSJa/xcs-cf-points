@@ -1,6 +1,5 @@
 package com.issja.entity;
 
-import io.swagger.models.auth.In;
 import lombok.Data;
 
 import java.util.List;
@@ -11,9 +10,9 @@ import java.util.List;
  * @Time ： 2023/1/16 23:56
  **/
 @Data
-public class AllUserContestsDetail {
+public class AllStudentContestsDetail {
     private Integer uid;
     private String uname;
-    private List<UserContestDetail> contestDetail;
+    private List<StudentContestDetail> contestDetail;
     private List<Integer> doList;
 }

@@ -107,7 +107,7 @@ import {
   ElSwitch
 } from "element-plus";
 import {ref, reactive} from "vue";
-import {addContest, addScore, addUser} from "@/api";
+import {addContest, addScore, addStudent} from "@/api";
 import type {FormInstance, FormRules} from 'element-plus'
 
 
@@ -198,7 +198,7 @@ export default {
         if (valid) {
           let json = JSON.stringify(formUser);
           // console.log(json)
-          addUser(json).then(res => {
+          addStudent(json).then(res => {
             if (res.data.code === 200) {
               ElMessage({
                 showClose: true,

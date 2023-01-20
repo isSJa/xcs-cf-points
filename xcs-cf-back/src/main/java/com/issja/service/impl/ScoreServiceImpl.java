@@ -3,7 +3,7 @@ package com.issja.service.impl;
 import com.issja.entity.Score;
 import com.issja.mapper.ContestsMapper;
 import com.issja.mapper.ScoreMapper;
-import com.issja.mapper.UserMapper;
+import com.issja.mapper.StudentMapper;
 import com.issja.service.IScoreService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +26,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     @Autowired
     private ContestsMapper contestsMapper;
     @Autowired
-    private UserMapper userMapper;
+    private StudentMapper studentMapper;
 
     @Override
     public Integer calculateScore(Map<String, Object> score) {
@@ -64,7 +64,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         if(res==-1)return false;
         String account= (String) score.get("uAccount");
         // 用户信息不存在
-        if(userMapper.isUserExist(account)==0)return false;
+        if(studentMapper.isStudentExist(account)==0)return false;
         String name= (String) score.get("cName");
         score.put("score",res);
         if(scoreMapper.isExist(account,name)==0){

@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 用户表
+ * 社员表
  * </p>
  *
  * @author issja
@@ -18,8 +18,8 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-@ApiModel(value="User对象", description="用户表")
-public class User implements Serializable {
+@ApiModel(value="Student对象", description="用户表")
+public class Student implements Serializable {
 
     private static final long serialVersionUID = 1L;
 

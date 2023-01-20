@@ -9,11 +9,11 @@ export const addScore = (json: string) => {
     })
 }
 //添加用户
-export const addUser = (json: string) => {
+export const addStudent = (json: string) => {
     return http({
         method: 'post',
         data: json,
-        url: '/user'
+        url: '/student'
     })
 }
 //添加比赛
@@ -26,10 +26,10 @@ export const addContest = (json: string) => {
 }
 
 //分页+模糊查询
-export const getUserPage = (currentPage: number, pageSize: number, searchValue: string) => {
+export const getStudentPage = (currentPage: number, pageSize: number, searchValue: string) => {
     return http({
         method: 'get',
-        url: '/user/' + currentPage + "/" + pageSize,
+        url: '/student/' + currentPage + "/" + pageSize,
         headers: {
             'Content-Type': 'text/plain'
         },
@@ -72,31 +72,31 @@ export const getContestAfterDetail=(name:string)=>{
     })
 }
 //获取某一个用户的所有比赛信息
-export const getUserContests=(id:number)=>{
+export const getStudentContests=(id:number)=>{
     return http({
         method:'get',
-        url:'/user/contests/'+id
+        url:'/student/contests/'+id
     })
 }
 //获取所有用户的所有比赛信息
-export const getAllUserContests=()=>{
+export const getAllStudentContests=()=>{
     return http({
         method:'get',
-        url:'/user/contests'
+        url:'/student/contests'
     })
 }
 //获取用户信息
-export const getUserInfo=(id:number)=>{
+export const getStudentInfo=(id:number)=>{
     return http({
         method:'get',
-        url:'/user/'+id
+        url:'/student/'+id
     })
 }
 //修改用户信息
-export const updateUser=(json:string)=>{
+export const updateStudent=(json:string)=>{
     return http({
         method:'put',
-        url:'/user',
+        url:'/student',
         data:json
     })
 }

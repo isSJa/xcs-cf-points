@@ -1,18 +1,11 @@
 package com.issja.controller;
 
 
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.api.R;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.issja.entity.Contests;
 import com.issja.service.IContestsService;
 import com.issja.utils.Result;
-import org.apache.logging.log4j.util.Strings;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 /**
  * <p>
@@ -48,12 +41,12 @@ public class ContestsController {
     // 获取某一比赛正式比赛时间内所用用户信息
     @GetMapping("/during")
     public Result getDuringDetail(@RequestParam String name){
-        return Result.success(contestsService.getUsersByContestDuring(name));
+        return Result.success(contestsService.getStudentsByContestDuring(name));
     }
 
     // 获取某一比赛赛后补题所有用户信息
     @GetMapping("/after")
     public Result getAfterDetail(@RequestParam String name){
-        return Result.success(contestsService.getUsersByContestAfter(name));
+        return Result.success(contestsService.getStudentsByContestAfter(name));
     }
 }

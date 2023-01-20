@@ -20,12 +20,12 @@ public interface IContestsService extends IService<Contests> {
      * @param contestName
      * @return
      */
-    public List<Map<String,Object>>getUsersByContestDuring(String contestName);
+    public List<Map<String,Object>> getStudentsByContestDuring(String contestName);
 
     /**
      * 获取赛后补题情况
      * @param contestName
      * @return
      */
-    public List<Map<String,Object>>getUsersByContestAfter(String contestName);
+    public List<Map<String,Object>> getStudentsByContestAfter(String contestName);
 }

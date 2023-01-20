@@ -3,7 +3,6 @@ package com.issja.mapper;
 import com.issja.entity.Contests;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import org.apache.ibatis.annotations.MapKey;
-import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
@@ -24,14 +23,14 @@ public interface ContestsMapper extends BaseMapper<Contests> {
      * @param name
      */
     @MapKey("id")
-    public List<Map<String,Object>> getUsersByContestDuring(String name);
+    public List<Map<String,Object>> getStudentsByContestDuring(String name);
 
     /**
      * 赛后补题所有得分同学信息
      * @param name
      */
     @MapKey("id")
-    public List<Map<String,Object>>  getUsersByContestAfter(String name);
+    public List<Map<String,Object>> getStudentsByContestAfter(String name);
 
     /**
      * 获取某一个比赛的总赛题数
