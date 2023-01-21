@@ -49,6 +49,7 @@ import {reactive, ref} from "vue";
 import {ElMessage} from "element-plus";
 import {userLogin, userRegister} from "@/api";
 import {useRouter} from "vue-router";
+import MD5 from "@/utils/md5";
 
 export default {
   name: 'loginBox',
@@ -82,6 +83,7 @@ export default {
         }
       }
       // 登录验证
+      loginForm.password=MD5.hex_md5(loginForm.password)
       const json=JSON.stringify(loginForm)
       userLogin(json).then(res=>{
         let type
@@ -122,6 +124,7 @@ export default {
         return;
       }
       // 注册
+      registerForm.password=MD5.hex_md5(registerForm.password)
       const json = JSON.stringify(registerForm)
       userRegister(json).then(res => {
         let type

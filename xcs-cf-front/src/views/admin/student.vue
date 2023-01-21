@@ -123,7 +123,8 @@
         v-model="editDialogVisible"
         :title="editDialogTitle"
         width="500px"
-        style="position: relative;height: 280px">
+        style="position: relative;height: 280px"
+        @keyup.enter="confirmEdit">
       <el-form :model="userInfo" label-width="80px">
         <el-form-item label="name">
           <el-input v-model="userInfo.name"/>
@@ -167,7 +168,7 @@ import {
   ElTable,
   ElTableColumn,
   ElTag,
-  ElTooltip,ElMessageBox,
+  ElTooltip, ElMessageBox,
   ElLoading
 } from "element-plus";
 import {Search} from '@element-plus/icons-vue'
@@ -263,7 +264,7 @@ export default {
     const allDetailDialogTitle = ref('The Details of all people')
     // 显示所有用户详情
     const showAllDetail = () => {
-      const loadingInstance = ElLoading.service({ fullscreen: true })
+      const loadingInstance = ElLoading.service({fullscreen: true})
       getAllStudentContests().then(res => {
         loadingInstance.close()
         allDetail.value = res.data.data
@@ -301,7 +302,7 @@ export default {
     const cancelEdit = () => {
       editDialogVisible.value = false
     }
-    const showMsg=(res)=>{
+    const showMsg = (res) => {
       if (res.data.code === 200) {
         ElMessage({
           showClose: true,
@@ -335,7 +336,7 @@ export default {
           }
       )
           .then(() => {
-            deleteStudent(id).then(res=>{
+            deleteStudent(id).then(res => {
               showMsg(res)
             })
           })

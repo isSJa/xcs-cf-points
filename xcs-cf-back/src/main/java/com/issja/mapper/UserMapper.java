@@ -38,7 +38,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param email
      * @return
      */
-    @Select("select count(*) from xcs_cf_points.user where BINARY username=#{email}")
+    @Select("select count(*) from xcs_cf_points.user where BINARY email=#{email}")
     public int isExistEmail(String email);
 
     /**

@@ -3,7 +3,6 @@ package com.issja.controller;
 import com.issja.entity.Score;
 import com.issja.service.IScoreService;
 import com.issja.utils.Result;
-import org.apache.ibatis.annotations.MapKey;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 

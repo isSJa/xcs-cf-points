@@ -89,6 +89,7 @@ import {
 import {ref} from "vue";
 import {UploadProps} from "element-plus";
 import {changePwd, getUser, updatePwd, updateStudent, updateUser} from "@/api";
+import MD5 from "@/utils/md5";
 
 export default {
   name: "adminMine",
@@ -185,6 +186,8 @@ export default {
       pwdDialogVisible.value = true;
     }
     const confirmPwd = () => {
+      newPwd.value.nPwd=MD5.hex_md5(newPwd.value.nPwd)
+      newPwd.value.oPwd=MD5.hex_md5(newPwd.value.oPwd)
       const json = JSON.stringify(newPwd.value)
       console.log(json)
       updatePwd(json).then(res => {

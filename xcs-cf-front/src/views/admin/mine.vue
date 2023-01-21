@@ -52,7 +52,8 @@
         :title="pwdDialogTitle"
         width="500px"
         style="position: relative;height: 230px"
-        @keyup.enter="confirmPwd">
+        @keyup.enter="confirmPwd"
+        @close="newPwd.nPwd='';newPwd.oPwd=''">
       <el-form :model="newPwd" label-width="80px">
         <el-form-item label="原始密码">
           <el-input v-model="newPwd.oPwd" type="password"/>
@@ -68,8 +69,8 @@
     </el-dialog>
   </div>
   <!--  背景-->
-  <div class="bg" />
-  <div class="bg-blue" />
+  <div class="bg"/>
+  <div class="bg-blue"/>
 </template>
 
 <script>
@@ -89,6 +90,7 @@ import {
 import {ref} from "vue";
 import {UploadProps} from "element-plus";
 import {changePwd, getUser, updatePwd, updateStudent, updateUser} from "@/api";
+import MD5 from "@/utils/md5";
 
 export default {
   name: "adminMine",
@@ -142,6 +144,14 @@ export default {
         })
       }
     }
+    // 显示msg
+    const showMsg2 = (msg, type) => {
+      ElMessage({
+        showClose: true,
+        message: msg,
+        type: type,
+      })
+    }
     // 修改头像
     const handleAvatarSuccess = (response) => {
       showMsg({data: response})
@@ -164,6 +174,13 @@ export default {
       editDialogVisible.value = true;
     }
     const confirmEdit = () => {
+      // 信息不完整
+      for (let item in newUser.value) {
+        if (newUser.value[item] === '') {
+          showMsg2("修改信息不完整！", "error");
+          return;
+        }
+      }
       const json = JSON.stringify(newUser.value)
       updateUser(json).then(res => {
         showMsg(res)
@@ -185,10 +202,27 @@ export default {
       pwdDialogVisible.value = true;
     }
     const confirmPwd = () => {
+      // 信息不完整
+      for (let item in newPwd.value) {
+        if (newPwd.value[item] === '') {
+          showMsg2("修改信息不完整！", "error");
+          return;
+        }
+      }
+      // 密码规则验证
+      const oPwd = newPwd.value.oPwd;
+      const nPwd = newPwd.value.nPwd;
+      let re = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/
+      if (!re.test(nPwd)) {
+        showMsg2("密码需在6-12位，且含数字和英文字母", "error")
+        return;
+      }
+      newPwd.value.nPwd = MD5.hex_md5(newPwd.value.nPwd)
+      newPwd.value.oPwd = MD5.hex_md5(newPwd.value.oPwd)
       const json = JSON.stringify(newPwd.value)
-      console.log(json)
       updatePwd(json).then(res => {
         showMsg(res)
+        pwdDialogVisible.value = false
         flush()
       })
     }
@@ -243,6 +277,7 @@ export default {
     color: #fff;
   }
 }
+
 .bg-blue {
   margin-top: 50px;
   width: 100%;
@@ -253,6 +288,7 @@ export default {
   background: #004aad center / cover no-repeat;
   z-index: -1;
 }
+
 .bg {
   margin-top: 50px;
   width: 100%;

@@ -6,7 +6,7 @@
       <!--  详情和删除  -->
       <div class="tools-bar">
         <el-button type="danger" @click="showAllDetail">所有详情</el-button>
-<!--        <el-button>一键删除</el-button>-->
+        <!--        <el-button>一键删除</el-button>-->
       </div>
       <!--  搜索  -->
       <div class="search">
@@ -26,11 +26,12 @@
                 max-height="75vh" style="width: 100%"
                 :header-cell-style="headStyle"
                 :cell-style="rowStyle"
-                @row-click="handleClick">
+                @row-click="handleClick"
+                @sort-change="sort">
         <!--        排序-->
         <el-table-column type="index" width="100" label="rank" v-if="isShowRank"/>
         <!--        复选框-->
-<!--        <el-table-column type="selection" width="100"/>-->
+        <!--        <el-table-column type="selection" width="100"/>-->
         <!--        id-->
         <el-table-column prop="id" label="id" width="100"
                          sortable/>
@@ -169,6 +170,13 @@ export default {
         }
       })
     }
+    const sort=({ column})=>{
+      if(column.property==='score'){
+        isShowRank.value = pageSize.value === maxNum.value;
+      }else{
+        isShowRank.value=false
+      }
+    }
     // 初始化页面
     getPage()
     // 获取所有用户信息
@@ -182,7 +190,6 @@ export default {
     // 分页相关操作
     const handleSizeChange = (val) => {
       pageSize.value = val;
-      isShowRank.value = pageSize.value === maxNum.value;
       getPage()
     }
     const handleCurrentChange = (val) => {
@@ -215,7 +222,7 @@ export default {
     const allDetailDialogTitle = ref('The Details of all people')
     // 显示所有用户详情
     const showAllDetail = () => {
-      const loadingInstance = ElLoading.service({ fullscreen: true })
+      const loadingInstance = ElLoading.service({fullscreen: true})
       getAllStudentContests().then(res => {
         loadingInstance.close()
         allDetail.value = res.data.data
@@ -259,6 +266,7 @@ export default {
       handleClick,
       totalScore,
       showAllDetail,
+      sort,
     }
   }
 }

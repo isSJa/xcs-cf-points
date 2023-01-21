@@ -7,6 +7,7 @@ import com.issja.mapper.UserMapper;
 import com.issja.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.issja.utils.Result;
+import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -38,6 +39,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         if (userMapper.isExistUsername(user.getUsername()) != 0) {
             return Result.error("用户名已存在", null);
         }
+        // 邮箱已注册
         if (userMapper.isExistEmail(user.getEmail()) != 0) {
             return Result.error("邮箱已注册", null);
         }
@@ -91,9 +93,19 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public Result updateUserInfo(User user) {
-        // 用户名已存在
-        if (userMapper.isExistUsername(user.getUsername()) != 0) {
-            return Result.error("用户名已存在", null);
+        Integer id=user.getId();
+        User oldUser = userMapper.selectById(id);
+        if(!oldUser.getUsername().equals(user.getUsername())){
+            // 用户名已存在
+            if (userMapper.isExistUsername(user.getUsername()) != 0) {
+                return Result.error("用户名已存在", null);
+            }
+        }
+        if(!oldUser.getEmail().equals(user.getEmail())){
+            // 邮箱已注册
+            if (userMapper.isExistEmail(user.getEmail()) != 0) {
+                return Result.error("邮箱已注册", null);
+            }
         }
         int r = userMapper.updateById(user);
         if (r > 0) {
