@@ -48,4 +48,12 @@ public interface UserMapper extends BaseMapper<User> {
      */
     @Select("select count(*) from xcs_cf_points.user where BINARY username=#{account} or BINARY email=#{account}")
     public int isExistUsernameOrEmail(String account);
+
+    /**
+     * 更新密码
+     * @param pwd
+     * @return
+     */
+    @Select("update xcs_cf_points.user set password=#{nPwd} where id=#{id}")
+    public Integer changePwd(Map<String,Object> pwd);
 }

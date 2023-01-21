@@ -70,7 +70,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         String filePath = "F:/projs/files/avatar/"; // 上传后的路径
         // 删除之前的头像
         User user = userMapper.selectById(id);
-        if (user.getImgurl() != null && user.getImgurl().length() > 0){
+        if (user.getImgurl() != null && user.getImgurl().length() > 0) {
             String oldFileName = user.getImgurl().split("/file/")[1];
             new File(filePath + oldFileName).delete();
         }
@@ -87,5 +87,38 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public Result updateUserInfo(User user) {
+        // 用户名已存在
+        if (userMapper.isExistUsername(user.getUsername()) != 0) {
+            return Result.error("用户名已存在", null);
+        }
+        int r = userMapper.updateById(user);
+        if (r > 0) {
+            return Result.success("更新用户信息成功！", null);
+        } else {
+            return Result.error("更新用户信息失败", null);
+        }
+    }
+
+
+    @Override
+    public Result updatePwd(Map<String, Object> pwd) {
+        Integer id = (Integer) pwd.get("id");
+        String oPwd = (String) pwd.get("oPwd");
+        String nPwd = (String) pwd.get("nPwd");
+        String oldUserPassword = userMapper.selectById(id).getPassword();
+        // 密码不一致
+        if (!oPwd.equals(oldUserPassword)) {
+            return Result.error("原始密码错误！", null);
+        }
+        // 与原始密码一致
+        if (oPwd.equals(nPwd)) {
+            return Result.error("新密码与原始密码一致！", null);
+        }
+        userMapper.changePwd(pwd);
+        return Result.success("更新密码成功", null);
     }
 }

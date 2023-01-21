@@ -36,4 +36,17 @@ public interface IUserService extends IService<User> {
      * @param file
      */
     public void updateAvatar(MultipartFile file,Integer id);
+
+    /**
+     * 更新用户信息
+     * @param user
+     * @return
+     */
+    public Result updateUserInfo(User user);
+
+    /**
+     * 更新用户密码
+     * @param pwd
+     */
+    public Result updatePwd(Map<String,Object> pwd);
 }

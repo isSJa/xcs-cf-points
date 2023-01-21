@@ -6,7 +6,7 @@
         <div class="img-box">
           <img src="../../assets/xcs-cyan.png" alt="" class="img-big" @click="moveToIndex">
         </div>
-        <div class="hello">Hi! {{user.username}}~</div>
+        <div class="hello">Hi! {{ user.username }}~</div>
         <div class="avatar">
           <el-dropdown @command="handleCommand">
             <el-avatar :size="50" :src="user.imgurl"/>
@@ -17,7 +17,6 @@
               </el-dropdown-menu>
             </template>
           </el-dropdown>
-
         </div>
       </el-header>
       <el-container class="content">
@@ -54,7 +53,7 @@
         </el-aside>
         <!--        内容-->
         <el-main class="main">
-          <main-main/>
+          <main-main @changeAvatar="changeAvatar"/>
         </el-main>
       </el-container>
     </el-container>
@@ -62,7 +61,7 @@
   </div>
 </template>
 
-<script lang="ts">
+<script>
 import 'element-plus/dist/index.css'
 import {
   ElAside,
@@ -80,6 +79,7 @@ import MainMain from "@/main.vue";
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 import router from "@/router";
+import {getUser} from "@/api";
 
 export default {
   name: "adminIndex",
@@ -106,26 +106,26 @@ export default {
   setup() {
     const isCollapse = ref(false)
     const urls = ['', 'add', 'student', 'contest']
-    const storage = sessionStorage.getItem('user')
-    let user = null
-    if (storage != null)
-      user = JSON.parse(storage)
-    const defaultImgUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
-    if (user.imgurl === null || user.imgurl === '')
-      user.imgurl = defaultImgUrl
-    else
-      user.imgurl = 'http://localhost:8312' + user.imgurl
-    const changeNav = () => {
-      isCollapse.value = !isCollapse.value
+    let user = ref(null)
+    const flush = () => {
+      const storage = sessionStorage.getItem('user')
+      if (storage != null)
+        user.value = JSON.parse(storage)
+      const defaultImgUrl = 'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png'
+      if (user.value.imgurl === null || user.value.imgurl === '')
+        user.value.imgurl = defaultImgUrl
+      else
+        user.value.imgurl = 'http://localhost:8312' + user.value.imgurl
     }
+    flush()
     const router = useRouter()
     const defaultUrl = '/admin/welcome'
     router.push(defaultUrl)
-    const handleSelect = (index: number) => {
+    const handleSelect = (index) => {
       let url = '/admin/' + urls[index]
       router.push(url);
     }
-    const handleCommand = (command: string) => {
+    const handleCommand = (command) => {
       if (command === 'login-and-register') {
         sessionStorage.removeItem('user')
       }
@@ -141,9 +141,12 @@ export default {
       }
       router.push(defaultUrl)
     }
+    const changeAvatar = () => {
+      flush()
+    }
     return {
       isCollapse,
-      changeNav,
+      changeAvatar,
       handleSelect,
       user,
       handleCommand,
@@ -179,7 +182,7 @@ export default {
     }
   }
 
-  .hello{
+  .hello {
     position: absolute;
     right: 90px;
     top: 30px;
@@ -204,7 +207,7 @@ export default {
     width: 120px;
 
     .nav-menu {
-      min-height: 400px;
+      min-height: 100vh;
       font-weight: bold;
 
       .change {

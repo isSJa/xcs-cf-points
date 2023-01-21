@@ -141,3 +141,19 @@ export const getUser=(id:number)=>{
         url:'/user/'+id
     })
 }
+// 更新用户信息
+export const updateUser=(json:string)=>{
+    return http({
+        method:'post',
+        url:'/user/changeInfo',
+        data:json
+    })
+}
+// 修改用户密码
+export const updatePwd=(json:string)=>{
+    return http({
+        method:'post',
+        url:'/user/changePwd',
+        data:json
+    })
+}
