@@ -73,7 +73,7 @@ export default {
         type: type,
       })
     }
-    const router=useRouter();
+    const router = useRouter();
     const login = () => {
       // 信息不完整
       for (let item in loginForm) {
@@ -83,22 +83,25 @@ export default {
         }
       }
       // 登录验证
-      loginForm.password=MD5.hex_md5(loginForm.password)
-      const json=JSON.stringify(loginForm)
-      userLogin(json).then(res=>{
+      loginForm.password = MD5.hex_md5(loginForm.password)
+      const json = JSON.stringify(loginForm)
+      userLogin(json).then(res => {
         let type
-        if(res.data.code===200)
-          type='success'
+        if (res.data.code === 200)
+          type = 'success'
         else
-          type='error'
-        showMsg(res.data.msg,type)
-        if(type==='success'){
-          const user=res.data.data
-          window.sessionStorage.setItem('user',JSON.stringify(user))
-          if(user.type===0)
+          type = 'error'
+        showMsg(res.data.msg, type)
+        if (type === 'success') {
+          const user = res.data.data
+          window.sessionStorage.setItem('user', JSON.stringify(user))
+          if (user.type === 0)
             router.push("/user")
           else
             router.push("/admin")
+        }
+        if (res.data.msg === '密码错误') {
+          loginForm.password = ''
         }
       })
     }
@@ -124,7 +127,7 @@ export default {
         return;
       }
       // 注册
-      registerForm.password=MD5.hex_md5(registerForm.password)
+      registerForm.password = MD5.hex_md5(registerForm.password)
       const json = JSON.stringify(registerForm)
       userRegister(json).then(res => {
         let type

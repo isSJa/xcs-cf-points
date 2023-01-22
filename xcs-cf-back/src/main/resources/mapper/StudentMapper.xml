@@ -3,8 +3,8 @@
 <mapper namespace="com.issja.mapper.StudentMapper">
     <select id="getStudentPage" resultType="java.util.Map">
         select u.id id, name, sno, account, ifnull(sum(duringScore), 0) + ifnull(sum(afterScore), 0) score
-        from xcs_cf_points.student u
-                 left join xcs_cf_points.score s
+        from  student u
+                 left join  score s
                            on u.id = s.uid
         where name like concat('%', #{searchValue}, '%')
            or u.id like concat('%', #{searchValue}, '%')

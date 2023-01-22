@@ -182,6 +182,7 @@ export default {
         }
       }
       const json = JSON.stringify(newUser.value)
+      console.log(json)
       updateUser(json).then(res => {
         showMsg(res)
         flush()

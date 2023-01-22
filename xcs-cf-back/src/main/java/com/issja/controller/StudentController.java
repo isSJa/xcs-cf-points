@@ -25,11 +25,6 @@ public class StudentController {
     @Autowired
     private IStudentService studentService;
 
-    @GetMapping()
-    public Result getAll() {
-        return Result.success(studentService.list());
-    }
-
     // 获取某个用户信息
     @GetMapping("/{id}")
     public Result getOne(@PathVariable Integer id) {
@@ -79,15 +74,21 @@ public class StudentController {
         return Result.success(page);
     }
 
+    // 获取所有用户信息
+    @GetMapping()
+    public Result getAll() {
+        return Result.success(studentService.list());
+    }
+
     //获取某一个用户的所有比赛数据
     @GetMapping("/contests/{id}")
-    public Result getStudentScores(@PathVariable Integer id){
+    public Result getStudentScores(@PathVariable Integer id) {
         return Result.success(studentService.getStudentScores(id));
     }
 
     //获取所有用户的比赛信息
     @GetMapping("/contests")
-    public Result getAllStudentScores(){
+    public Result getAllStudentScores() {
         return Result.success(studentService.getAllStudentScores());
     }
 }

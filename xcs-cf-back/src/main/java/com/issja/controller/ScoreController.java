@@ -34,13 +34,8 @@ public class ScoreController {
     }
 
     @PostMapping()
-    public Result addOne(@RequestBody Map<String,Object> score) {
-        boolean r = scoreService.modifyScore(score);
-        if (r) {
-            return Result.success("计分成功！添加"+score.get("score")+"分！", null);
-        } else {
-            return Result.error("信息有误，计分失败！", null);
-        }
+    public Result addOne(@RequestBody Map<String, Object> score) {
+        return scoreService.modifyScore(score);
     }
 
     @PutMapping()

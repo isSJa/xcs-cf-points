@@ -37,6 +37,6 @@ public interface ContestsMapper extends BaseMapper<Contests> {
      * @param name
      * @return
      */
-    @Select("select total,type from xcs_cf_points.contests where name=#{name}")
+    @Select("select total,type from contests where name=#{name}")
     public Map<String,Object> getContestTotalAndType(@Param("name") String name);
 }

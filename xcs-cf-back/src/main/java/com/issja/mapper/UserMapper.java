@@ -22,7 +22,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param pwd
      * @return
      */
-    @Select("select * from xcs_cf_points.user where BINARY password=#{pwd} and(BINARY username=#{account} or BINARY email=#{account})")
+    @Select("select * from  user where BINARY password=#{pwd} and(BINARY username=#{account} or BINARY email=#{account})")
     public User isLoginSuccess(@Param("account")String account,@Param("pwd")String pwd);
 
     /**
@@ -30,7 +30,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param username
      * @return
      */
-    @Select("select count(*) from xcs_cf_points.user where BINARY username=#{username}")
+    @Select("select count(*) from  user where BINARY username=#{username}")
     public int isExistUsername(String username);
 
     /**
@@ -38,7 +38,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param email
      * @return
      */
-    @Select("select count(*) from xcs_cf_points.user where BINARY email=#{email}")
+    @Select("select count(*) from  user where BINARY email=#{email}")
     public int isExistEmail(String email);
 
     /**
@@ -46,7 +46,7 @@ public interface UserMapper extends BaseMapper<User> {
      * @param account
      * @return
      */
-    @Select("select count(*) from xcs_cf_points.user where BINARY username=#{account} or BINARY email=#{account}")
+    @Select("select count(*) from  user where BINARY username=#{account} or BINARY email=#{account}")
     public int isExistUsernameOrEmail(String account);
 
     /**
@@ -54,6 +54,6 @@ public interface UserMapper extends BaseMapper<User> {
      * @param pwd
      * @return
      */
-    @Select("update xcs_cf_points.user set password=#{nPwd} where id=#{id}")
+    @Select("update  user set password=#{nPwd} where id=#{id}")
     public Integer changePwd(Map<String,Object> pwd);
 }

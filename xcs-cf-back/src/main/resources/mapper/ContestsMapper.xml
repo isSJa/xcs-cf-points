@@ -4,16 +4,16 @@
 
     <select id="getStudentsByContestDuring" resultType="java.util.Map">
         select u.id id, u.name name, s.duringScore score
-        from xcs_cf_points.student u
-                 join xcs_cf_points.score s on u.id = s.uid
-        where s.cid = (select id from xcs_cf_points.contests c where c.name = #{name})
+        from  student u
+                 join score s on u.id = s.uid
+        where s.cid = (select id from contests c where c.name = #{name})
           and s.duringScore > 0
     </select>
     <select id="getStudentsByContestAfter" resultType="java.util.Map">
         select u.id id, u.name name, s.afterScore score
-        from xcs_cf_points.student u
-                 join xcs_cf_points.score s on u.id = s.uid
-        where s.cid = (select id from xcs_cf_points.contests c where c.name = #{name})
+        from  student u
+                 join  score s on u.id = s.uid
+        where s.cid = (select id from contests c where c.name = #{name})
           and s.afterScore > 0
     </select>
 </mapper>

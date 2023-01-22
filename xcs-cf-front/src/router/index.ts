@@ -26,6 +26,10 @@ const routes: Array<RouteRecordRaw> = [
             name: 'admin-mine',
             path: 'mine',
             component: () => import('@/views/admin/mine.vue')
+        },{
+            name: 'admin-rule',
+            path: 'rule',
+            component: () => import('@/views/admin/rule.vue')
         }]
     }, {
         name: 'user',
@@ -47,6 +51,10 @@ const routes: Array<RouteRecordRaw> = [
             name: 'user-mine',
             path: 'mine',
             component: () => import('@/views/user/mine.vue')
+        },{
+            name: 'user-rule',
+            path: 'rule',
+            component: () => import('@/views/user/rule.vue')
         }]
     }, {
         name: 'login',

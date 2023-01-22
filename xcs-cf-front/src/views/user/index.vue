@@ -35,10 +35,20 @@
             </el-menu-item>
             <el-menu-item index="2">
               <el-icon>
-                <Collection/>
+                <Sugar/>
               </el-icon>
               <template #title>CF赛</template>
             </el-menu-item>
+            <el-menu-item index="3">
+              <el-icon>
+                <Collection/>
+              </el-icon>
+              <template #title>规则</template>
+            </el-menu-item>
+            <!--            <div class="change" @click="changeNav">-->
+            <!--              <el-icon size="large"><Expand /></el-icon>-->
+            <!--              <el-icon size="large"><Fold /></el-icon>-->
+            <!--            </div>-->
           </el-menu>
         </el-aside>
         <!--        内容-->
@@ -95,7 +105,7 @@ export default {
   },
   setup() {
     const isCollapse = ref(false)
-    const urls = ['', 'student', 'contest']
+    const urls = ['', 'student', 'contest', 'rule']
     let user = ref(null)
     const flush = () => {
       const storage = sessionStorage.getItem('user')

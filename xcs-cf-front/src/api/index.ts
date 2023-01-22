@@ -25,7 +25,13 @@ export const addContest = (json: string) => {
         url: '/contests'
     })
 }
-
+//获取所有社员信息
+export const getAllStudent=()=>{
+    return http({
+        method:'get',
+        url:'/student'
+    })
+}
 //分页+模糊查询
 export const getStudentPage = (currentPage: number, pageSize: number, searchValue: string) => {
     return http({

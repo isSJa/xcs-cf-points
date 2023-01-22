@@ -2,6 +2,7 @@ package com.issja.service;
 
 import com.issja.entity.Score;
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.issja.utils.Result;
 
 import java.util.Map;
 
@@ -16,6 +17,7 @@ import java.util.Map;
 public interface IScoreService extends IService<Score> {
     /**
      * 算出可以加多少分
+     * 比赛未录入返回-1 输入A题数有误返回-2
      * @param score
      * @return
      */
@@ -26,5 +28,5 @@ public interface IScoreService extends IService<Score> {
      * @param score
      * @return
      */
-    public boolean modifyScore(Map<String,Object> score);
+    public Result modifyScore(Map<String,Object> score);
 }

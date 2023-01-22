@@ -2,10 +2,10 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.issja.mapper.ScoreMapper">
     <insert id="addScore">
-        insert into xcs_cf_points.score
+        insert into  score
         values (
-        (select id from xcs_cf_points.student where account=#{uAccount}),
-        (select id from xcs_cf_points.contests where name=#{cName}),
+        (select id from  student where account=#{uAccount}),
+        (select id from  contests where name=#{cName}),
         <if test="isDuring==true">
             #{score},0,#{aNum}
         </if>
@@ -16,7 +16,7 @@
     </insert>
 
     <update id="updateScore">
-        update xcs_cf_points.score s
+        update  score s
         <if test="isDuring==true">
             set s.duringScore=#{score}
         </if>
@@ -24,20 +24,20 @@
             set s.afterScore=#{score}
         </if>
         ,s.aNum=#{aNum}
-        where s.uid = (select id from xcs_cf_points.student where account = #{uAccount})
-        and s.cid = (select id from xcs_cf_points.contests where name = #{cName})
+        where s.uid = (select id from  student where account = #{uAccount})
+        and s.cid = (select id from  contests where name = #{cName})
     </update>
 
     <select id="isExist" resultType="java.lang.Integer">
         select count(*)
-        from xcs_cf_points.score s
-        where s.uid = (select id from xcs_cf_points.student where account = #{account})
-          and s.cid = (select id from xcs_cf_points.contests where name = #{name})
+        from  score s
+        where s.uid = (select id from  student where account = #{account})
+          and s.cid = (select id from  contests where name = #{name})
     </select>
     <select id="getScoreANum" resultType="java.lang.Integer">
         select aNum
-        from xcs_cf_points.score s
-        where s.uid = (select id from xcs_cf_points.student where account = #{account})
-          and s.cid = (select id from xcs_cf_points.contests where name = #{name})
+        from  score s
+        where s.uid = (select id from  student where account = #{account})
+          and s.cid = (select id from  contests where name = #{name})
     </select>
 </mapper>

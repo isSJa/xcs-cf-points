@@ -248,7 +248,7 @@ export default {
 }
 .bg-blue {
   margin-top: 50px;
-  width: 100%;
+  width: 93%;
   height: 600px;
   filter: blur(10px);
   position: absolute;

@@ -34,7 +34,7 @@ public interface StudentMapper extends BaseMapper<Student> {
      * @param account
      * @return
      */
-    @Select("select count(*) from xcs_cf_points.student where account=#{account}")
+    @Select("select count(*) from  student where account=#{account}")
     public Integer isStudentExist(@Param("account") String account);
 
     /**

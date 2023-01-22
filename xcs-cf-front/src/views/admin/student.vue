@@ -28,7 +28,7 @@
                 :cell-style="rowStyle"
                 @row-click="handleClick">
         <!--        排序-->
-        <el-table-column type="index" width="100" label="rank" v-if="isShowRank"/>
+        <el-table-column type="index" width="60" label="rank" v-if="isShowRank"/>
         <!--        复选框-->
         <!--        <el-table-column type="selection" width="100"/>-->
         <!--        id-->
@@ -142,15 +142,11 @@
       </el-form>
     </el-dialog>
   </div>
-  <!--  删除用户-->
-  <div class="delete">
-
-  </div>
 </template>
 
 <script>
 import {
-  deleteStudent,
+  deleteStudent, getAllStudent,
   getAllStudentContests,
   getStudentContests,
   getStudentInfo,
@@ -203,19 +199,23 @@ export default {
       getStudentPage(currentPage.value, pageSize.value, value).then(res => {
         user.value = res.data.data.records;
         total.value = res.data.data.total;
-        if (total.value > maxNum.value)
-          maxNum.value = total.value
-        if (pageSizeArray.value.indexOf(maxNum.value) === -1) {
+      })
+    }
+    // 获取所有用户信息
+    const getAll = () => {
+      getAllStudent().then(res => {
+        allUser.value = res.data.data;
+        maxNum.value = allUser.value.length;
+        if (pageSizeArray.value.length === 3) {
           pageSizeArray.value.push(maxNum.value)
+        } else {
+          pageSizeArray.value[3] = maxNum.value
         }
       })
     }
     // 初始化页面
     getPage()
-    // 获取所有用户信息
-    getStudentPage(1, 100).then(res => {
-      allUser.value = res.data.data.records;
-    })
+    getAll()
     // 分页+模糊查询
     const handleSearch = () => {
       getPage()
@@ -227,7 +227,6 @@ export default {
       getPage()
     }
     const handleCurrentChange = (val) => {
-      console.log(val)
       currentPage.value = val;
       getPage()
     }
@@ -334,12 +333,13 @@ export default {
             cancelButtonText: '取消',
             type: 'warning',
           }
-      )
-          .then(() => {
-            deleteStudent(id).then(res => {
-              showMsg(res)
-            })
-          })
+      ).then(() => {
+        deleteStudent(id).then(res => {
+          showMsg(res)
+          getPage()
+          getAll()
+        })
+      })
       console.log('delete')
     }
     return {

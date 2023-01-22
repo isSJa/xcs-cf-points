@@ -6,6 +6,7 @@ import com.issja.mapper.ScoreMapper;
 import com.issja.mapper.StudentMapper;
 import com.issja.service.IScoreService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.issja.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         Integer total = (Integer) totalAndType.get("total");
         String type = (String) totalAndType.get("type");
         // 输入A题数有误
-        if(aNum>total||aNum<0)return -1;
+        if(aNum>total||aNum<0)return -2;
         // 算分
         Integer res = 0;
         if (isDuring) {
@@ -58,13 +59,14 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
     }
 
     @Override
-    public boolean modifyScore(Map<String, Object> score) {
+    public Result modifyScore(Map<String, Object> score) {
         Integer res = calculateScore(score);
         // 比赛信息不存在或输入A题数有误
-        if(res==-1)return false;
+        if(res==-1)return Result.error("比赛未录入",null);
+        if(res==-2)return Result.error("输入A题数有误(大于总题数或小于0)",null);
         String account= (String) score.get("uAccount");
         // 用户信息不存在
-        if(studentMapper.isStudentExist(account)==0)return false;
+        if(studentMapper.isStudentExist(account)==0)return Result.error("用户信息不存在",null);
         String name= (String) score.get("cName");
         score.put("score",res);
         if(scoreMapper.isExist(account,name)==0){
@@ -75,6 +77,6 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
                 score.put("aNum",aNum);
             scoreMapper.updateScore(score);
         }
-        return true;
+        return Result.success("计分成功！添加"+score.get("score")+"分！", null);
     }
 }
