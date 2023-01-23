@@ -60,4 +60,15 @@ public class ContestsController {
             return Result.error("比赛删除失败！",null);
         }
     }
+
+    //修改比赛
+    @PutMapping()
+    public Result update(@RequestBody Contests contests){
+        boolean r = contestsService.updateById(contests);
+        if(r){
+            return Result.success("修改比赛信息成功！",null);
+        }else{
+            return Result.error("修改比赛信息失败！",null);
+        }
+    }
 }

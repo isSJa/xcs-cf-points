@@ -170,3 +170,11 @@ export const removeContest=(id:number)=>{
         url:'/contests/'+id
     })
 }
+//修改比赛
+export const updateContest=(json:string)=>{
+    return http({
+        method:'put',
+        url:'/contests',
+        data:json
+    })
+}
