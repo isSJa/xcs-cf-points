@@ -56,4 +56,10 @@ public interface IUserService extends IService<User> {
      * @param pwd
      */
     public Result updatePwd(Map<String,Object> pwd);
+
+    /**
+     * 根据id获取用户信息，添加token
+     * @return
+     */
+    public User getById(Integer id);
 }

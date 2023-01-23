@@ -57,17 +57,17 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
             return Result.error("密码错误", null);
         }
         // 登录成功
-        user.setToken(JwtUtils.createToken(user.getId(),user.getUsername()));
+        user.setToken(JwtUtils.createToken(user.getId(), user.getUsername()));
         return Result.success("登录成功！", user);
     }
 
     @Override
     public Result checkToken(String token) {
         boolean r = JwtUtils.checkToken(token);
-        if(r){
-            return Result.success("token有效",null);
-        }else{
-            return Result.error("token无效",null);
+        if (r) {
+            return Result.success("token有效", null);
+        } else {
+            return Result.error("token无效", null);
         }
     }
 
@@ -102,15 +102,15 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
 
     @Override
     public Result updateUserInfo(User user) {
-        Integer id=user.getId();
+        Integer id = user.getId();
         User oldUser = userMapper.selectById(id);
-        if(!oldUser.getUsername().equals(user.getUsername())){
+        if (!oldUser.getUsername().equals(user.getUsername())) {
             // 用户名已存在
             if (userMapper.isExistUsername(user.getUsername()) != 0) {
                 return Result.error("用户名已存在", null);
             }
         }
-        if(!oldUser.getEmail().equals(user.getEmail())){
+        if (!oldUser.getEmail().equals(user.getEmail())) {
             // 邮箱已注册
             if (userMapper.isExistEmail(user.getEmail()) != 0) {
                 return Result.error("邮箱已注册", null);
@@ -141,5 +141,13 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         }
         userMapper.changePwd(pwd);
         return Result.success("更新密码成功", null);
+    }
+
+    @Override
+    public User getById(Integer id) {
+
+        User user = userMapper.selectById(id);
+        user.setToken(JwtUtils.createToken(id, user.getUsername()));
+        return user;
     }
 }
