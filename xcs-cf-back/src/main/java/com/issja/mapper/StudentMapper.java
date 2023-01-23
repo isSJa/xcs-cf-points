@@ -21,13 +21,21 @@ import java.util.Map;
  */
 public interface StudentMapper extends BaseMapper<Student> {
     /**
-     * 模糊查询+分页查询
+     * 模糊查询+分页查询，获取对应页或查询的信息及总分
      * @param page
      * @param searchValue
      * @return
      */
     @MapKey("id")
-    public List<Map<String, Object>> getStudentPage(Page<Map<String,Object>>page, String searchValue);
+    public List<Map<String, Object>> getStudentPageAndSearch(Page<Map<String,Object>>page, String searchValue);
+
+    /**
+     * 获取所有社员信息及总分
+     * @return
+     */
+    @MapKey("id")
+    public List<Map<String,Object>> getAllStudentIncludesScore();
+
 
     /**
      * 用户账号是否存在

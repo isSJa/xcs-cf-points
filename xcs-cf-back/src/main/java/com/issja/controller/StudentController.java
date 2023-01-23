@@ -77,7 +77,7 @@ public class StudentController {
     // 获取所有用户信息
     @GetMapping()
     public Result getAll() {
-        return Result.success(studentService.list());
+        return Result.success(studentService.getAllStudentIncludesScore());
     }
 
     //获取某一个用户的所有比赛数据
@@ -86,7 +86,7 @@ public class StudentController {
         return Result.success(studentService.getStudentScores(id));
     }
 
-    //获取所有用户的比赛信息
+    //获取所有用户的比赛信息（包括每场比赛情况）
     @GetMapping("/contests")
     public Result getAllStudentScores() {
         return Result.success(studentService.getAllStudentScores());

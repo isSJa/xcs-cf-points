@@ -123,23 +123,32 @@
         v-model="editDialogVisible"
         :title="editDialogTitle"
         width="500px"
-        style="position: relative;height: 280px"
-        @keyup.enter="confirmEdit">
-      <el-form :model="userInfo" label-width="80px">
-        <el-form-item label="name">
+        style="position: relative;height: 400px"
+        @keyup.enter="confirmEdit(formUserRef)">
+      <el-form
+          label-position="top"
+          label-width="100px"
+          style="max-width: 460px;margin: auto"
+          ref="formUserRef"
+          :model="userInfo"
+          :rules="rulesUser"
+      >
+        <el-form-item label="name" prop="name">
           <el-input v-model="userInfo.name"/>
         </el-form-item>
-        <el-form-item label="sno">
+        <el-form-item label="sno" prop="sno">
           <el-input v-model="userInfo.sno"/>
         </el-form-item>
-        <el-form-item label="account">
+        <el-form-item label="account" prop="account">
           <el-input v-model="userInfo.account"/>
         </el-form-item>
-        <div style="position: absolute;right: 20px">
+        <div style="position: absolute;right: 20px;bottom: 25px;">
           <el-button @click="cancelEdit">取消</el-button>
-          <el-button type="primary" @click="confirmEdit">确认</el-button>
+          <el-button type="primary" @click="confirmEdit(formUserRef)">确认</el-button>
         </div>
       </el-form>
+
+
     </el-dialog>
   </div>
 </template>
@@ -153,7 +162,7 @@ import {
   getStudentPage,
   updateStudent
 } from "@/api";
-import {ref} from "vue";
+import {reactive, ref} from "vue";
 import 'element-plus/dist/index.css'
 import {
   ElButton,
@@ -165,7 +174,7 @@ import {
   ElTableColumn,
   ElTag,
   ElTooltip, ElMessageBox,
-  ElLoading
+  ElLoading, FormInstance, FormRules
 } from "element-plus";
 import {Search} from '@element-plus/icons-vue'
 
@@ -272,6 +281,8 @@ export default {
     }
     // 显示某一个用户的详情
     const showDetail = (id) => {
+      console.log(allUser.value[id - 1].score)
+      console.log(allUser.value[id - 1])
       totalScore.value = allUser.value[id - 1].score
       detailDialogTitle.value = 'The Detail of ' +
           allUser.value[id - 1].account +
@@ -283,24 +294,7 @@ export default {
         detail.value = res.data.data
       })
     }
-    // 编辑
-    const editDialogVisible = ref(false)
-    const editDialogTitle = ref('')
-    const userInfo = ref({})
-    const editUser = id => {
-      editDialogTitle.value = 'Edit ' +
-          allUser.value[id - 1].account +
-          " - " +
-          allUser.value[id - 1].name +
-          allUser.value[id - 1].sno;
-      getStudentInfo(id).then(res => {
-        editDialogVisible.value = true;
-        userInfo.value = res.data.data
-      })
-    }
-    const cancelEdit = () => {
-      editDialogVisible.value = false
-    }
+    // 操作提示框
     const showMsg = (res) => {
       if (res.data.code === 200) {
         ElMessage({
@@ -318,9 +312,45 @@ export default {
         })
       }
     }
-    const confirmEdit = () => {
-      updateStudent(JSON.stringify(userInfo.value)).then(res => {
-        showMsg(res)
+    // 编辑
+    const editDialogVisible = ref(false)
+    const editDialogTitle = ref('')
+    const userInfo = ref({})
+    const formUserRef = ref<FormInstance>({})
+    const rulesUser = reactive<FormRules>({
+      name: [
+        {required: true},
+      ],
+      sno: [
+        {required: true},
+      ],
+      account: [
+        {required: true},
+      ]
+    })
+    const editUser = id => {
+      editDialogTitle.value = 'Edit ' +
+          allUser.value[id - 1].account +
+          " - " +
+          allUser.value[id - 1].name +
+          allUser.value[id - 1].sno;
+      getStudentInfo(id).then(res => {
+        editDialogVisible.value = true;
+        userInfo.value = res.data.data
+      })
+    }
+    const cancelEdit = () => {
+      editDialogVisible.value = false
+    }
+    const confirmEdit = async (formEl) => {
+      if (!formEl) return
+      await formEl.validate((valid) => {
+        // 验证成功
+        if (valid) {
+          updateStudent(JSON.stringify(userInfo.value)).then(res => {
+            showMsg(res)
+          })
+        }
       })
     }
     // 删除用户
@@ -369,7 +399,9 @@ export default {
       showAllDetail,
       userInfo,
       cancelEdit,
-      confirmEdit
+      confirmEdit,
+      formUserRef,
+      rulesUser
     }
   }
 }

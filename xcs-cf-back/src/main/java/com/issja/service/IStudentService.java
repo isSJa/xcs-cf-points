@@ -27,14 +27,20 @@ public interface IStudentService extends IService<Student> {
     public Page<Map<String,Object>> getStudentPage(int currentPage, int pageSize, String searchValue);
 
     /**
-     * 获取某一个用户的所有比萨数据
+     * 获取所有社员信息以及总分
+     * @return
+     */
+    public List<Map<String,Object>> getAllStudentIncludesScore();
+
+    /**
+     * 获取某一个社员的所有比赛数据
      * @param id
      * @return
      */
     public List<StudentContestDetail> getStudentScores(int id);
 
     /**
-     * 获取所有用户的所有比赛信息
+     * 获取所有社员的所有比赛信息
      * @return
      */
     public List<AllStudentContestsDetail> getAllStudentScores();

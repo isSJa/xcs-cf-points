@@ -33,7 +33,12 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
     @Override
     public Page<Map<String, Object>> getStudentPage(int currentPage, int pageSize, String searchValue) {
         Page<Map<String, Object>> page = new Page<>(currentPage, pageSize);
-        return page.setRecords(studentMapper.getStudentPage(page, searchValue));
+        return page.setRecords(studentMapper.getStudentPageAndSearch(page, searchValue));
+    }
+
+    @Override
+    public List<Map<String, Object>> getAllStudentIncludesScore() {
+        return studentMapper.getAllStudentIncludesScore();
     }
 
     @Override
