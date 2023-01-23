@@ -2,7 +2,7 @@
   <div class="contests">
     <transition-group name="animate" appear>
       <div v-for="contest in contests" :key="contest.id">
-        <contest-card :contest="contest" @showDetail="showDetail"/>
+        <contest-card :contest="contest" :type="'admin'" @showDetail="showDetail" @flush="flush"/>
       </div>
     </transition-group>
   </div>
@@ -56,9 +56,12 @@ export default {
   },
   setup() {
     const contests = ref({})
-    getContest().then(res => {
-      contests.value = res.data.data
-    })
+    const flush=()=>{
+      getContest().then(res => {
+        contests.value = res.data.data
+      })
+    }
+    flush()
     const dialogVisible = ref(false)
     const title = ref('')
     const detailDuring = ref([])
@@ -86,6 +89,7 @@ export default {
       detailAfter,
       dialogVisible,
       title,
+      flush,
     }
   }
 }

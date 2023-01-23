@@ -49,4 +49,15 @@ public class ContestsController {
     public Result getAfterDetail(@RequestParam String name){
         return Result.success(contestsService.getStudentsByContestAfter(name));
     }
+
+    //删除比赛
+    @DeleteMapping("/{id}")
+    public Result delete(@PathVariable Integer id){
+        boolean r = contestsService.removeById(id);
+        if(r){
+            return Result.success("比赛删除成功！",null);
+        }else{
+            return Result.error("比赛删除失败！",null);
+        }
+    }
 }

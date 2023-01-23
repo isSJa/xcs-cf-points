@@ -340,7 +340,6 @@ export default {
           getAll()
         })
       })
-      console.log('delete')
     }
     return {
       currentPage,

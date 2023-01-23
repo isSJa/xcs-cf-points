@@ -4,40 +4,43 @@
       content="点击查看详情"
       placement="top"
   >
-    <div class="bg" @click="$emit('showDetail',$props.contest)">
+    <div class="bg" @click="$emit('showDetail',contest)">
       <div class="title">
-        {{ contest.name.length < 50 ? contest.name : contest.name.substr(0, 50) + "..." }}
-        <span class="total" v-if="contest.total">
+        {{ contest.name.length < maxLen ? contest.name : contest.name.substr(0, maxLen) + "..." }}
+      </div>
+      <div class="delete" @click.stop="deleteContest" v-if="type==='admin'">
+        <el-button>删除比赛</el-button>
+      </div>
+      <div class="total" v-if="contest.total">
         <span style="font-size: 12px">TOTAL</span>
         <div>{{ contest.total }}</div>
-      </span>
       </div>
       <div class="type" :style="{color:contest.type==='A'?'#3598da':'#00ace5'}">
         {{ contest.type }}
       </div>
-
       <div class="time">
         <div class="timeItem">正式比赛：{{ contest.time }}</div>
         <div class="timeItem">赛后补题：{{ after7() }}</div>
       </div>
-      <!--    <div class="detail">-->
-      <!--      <el-button type="default" @click="$emit('showDetail',$props.contest)">DETAIL</el-button>-->
-      <!--    </div>-->
     </div>
   </el-tooltip>
 </template>
 
 <script>
 import 'element-plus/dist/index.css'
-import {ElTooltip} from "element-plus";
+import {ElButton, ElMessage, ElMessageBox, ElTooltip} from "element-plus";
+import {removeContest} from "@/api";
 
 export default {
   name: "contestCard",
-  props: ['contest'],
+  props: ['contest', 'type'],
   components: {
     ElTooltip,
+    ElButton,
   },
-  setup(props) {
+  setup(props,{emit}) {
+    const maxLen=40;
+    // 计算赛后补题（7天后）的日期
     const after7 = () => {
       const date = new Date(props.contest.time)
       const date2 = new Date();
@@ -49,8 +52,37 @@ export default {
       if (day.toString().length < 2) day = '0' + day;
       return [year, month, day].join('-')
     }
+    // 删除比赛
+    const deleteContest=()=>{
+      ElMessageBox.confirm(
+          '确认删除该比赛?',
+          '',
+          {
+            confirmButtonText: '确认',
+            cancelButtonText: '取消',
+            type: 'warning',
+          }
+      ).then(() => {
+        removeContest(props.contest.id).then(res=>{
+          let type
+          if(res.data.code===200){
+            type='success'
+          }else{
+            type='error'
+          }
+          ElMessage({
+            showClose:true,
+            message:res.data.msg,
+            type:type
+          })
+          emit('flush')
+        })
+      })
+    }
     return {
       after7,
+      maxLen,
+      deleteContest
     }
   }
 }
@@ -88,12 +120,21 @@ export default {
     top: 100px;
     opacity: 0.9
   }
+  .delete{
+    font-size: 12px;
+    display: inline-block;
+    position: absolute;
+    top: 90px;
+    right: 20px;
+    z-index: 999;
+  }
 
   .total {
     position: absolute;
     left: 270px;
     top: 0px;
     color: #1782c6;
+    font-size: 25px;
     margin-left: 20px;
     text-align: center;
   }

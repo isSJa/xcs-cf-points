@@ -163,3 +163,10 @@ export const updatePwd=(json:string)=>{
         data:json
     })
 }
+// 删除比赛
+export const removeContest=(id:number)=>{
+    return http({
+        method:'delete',
+        url:'/contests/'+id
+    })
+}
