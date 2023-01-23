@@ -26,10 +26,17 @@ public interface IUserService extends IService<User> {
 
     /**
      * 注册
-     * @param user
+     * @param form
      * @return
      */
     public Result login(Map<String,Object> form);
+
+    /**
+     * 验证token
+     * @param token
+     * @return
+     */
+    public Result checkToken(String token);
 
     /**
      * 更换用户头像

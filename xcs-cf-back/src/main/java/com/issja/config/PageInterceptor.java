@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Configuration;
  * @Time ： 2023/1/6 17:44
  **/
 @Configuration
-public class MPConfig {
+public class PageInterceptor {
+    // 分页
     @Bean
     public MybatisPlusInterceptor mybatisPlusInterceptor(){
         MybatisPlusInterceptor mybatisPlusInterceptor=new MybatisPlusInterceptor();

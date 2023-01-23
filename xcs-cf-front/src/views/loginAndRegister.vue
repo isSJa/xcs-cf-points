@@ -94,7 +94,7 @@ export default {
         showMsg(res.data.msg, type)
         if (type === 'success') {
           const user = res.data.data
-          window.sessionStorage.setItem('user', JSON.stringify(user))
+          sessionStorage.setItem('user', JSON.stringify(user))
           if (user.type === 0)
             router.push("/user")
           else

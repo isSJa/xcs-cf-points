@@ -36,6 +36,12 @@ public class UserController {
         return userService.login(form);
     }
 
+    // 验证token
+    @PostMapping("/checkToken")
+    public Result checkToken(@RequestParam String token){
+        return userService.checkToken(token);
+    }
+
     // 上传文件
     @PostMapping("/upload-avatar")
     public Result upload(@RequestParam(value = "file") MultipartFile file, Integer id) {

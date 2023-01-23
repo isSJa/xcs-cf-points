@@ -178,3 +178,13 @@ export const updateContest=(json:string)=>{
         data:json
     })
 }
+//验证token
+export const checkToken=(token:string)=>{
+    return http({
+        method:'post',
+        url:'/user/checkToken',
+        params:{
+            token:token
+        }
+    })
+}

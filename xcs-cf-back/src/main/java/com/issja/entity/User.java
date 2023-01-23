@@ -42,4 +42,8 @@ public class User implements Serializable {
 
     @ApiModelProperty(value = "用户类型 0-普通用户 1-管理员")
     private Integer type;
+
+    // 进行登录验证，在数据库中不存在
+    @TableField(exist = false)
+    private String token;
 }

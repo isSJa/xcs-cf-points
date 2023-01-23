@@ -1,4 +1,6 @@
 import {createRouter, createWebHistory, RouteRecordRaw} from 'vue-router'
+import {ElMessage} from "element-plus";
+import {checkToken} from "@/api";
 
 
 const routes: Array<RouteRecordRaw> = [
@@ -66,6 +68,35 @@ const routes: Array<RouteRecordRaw> = [
 const router = createRouter({
     history: createWebHistory(process.env.BASE_URL),
     routes
+})
+const showMsg=()=>{
+    ElMessage({
+        showClose:true,
+        message:"无token，请登录",
+        type:"error"
+    })
+}
+router.beforeEach((to,from,next)=>{
+    if(to.path.startsWith("/login-and-register")){
+        next()
+    }else{
+        const storage=sessionStorage.getItem("user")
+        if(!storage){
+            showMsg()
+            next({path:'/login-and-register'})
+        }
+        else{
+            const user=JSON.parse(storage);
+            checkToken(user.token).then(res=>{
+                if(res.data.code===500){
+                    showMsg()
+                    next({path:'/login-and-register'})
+                }else{
+                    next()
+                }
+            })
+        }
+    }
 })
 
 export default router

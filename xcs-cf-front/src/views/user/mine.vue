@@ -189,7 +189,6 @@ export default {
       newPwd.value.nPwd=MD5.hex_md5(newPwd.value.nPwd)
       newPwd.value.oPwd=MD5.hex_md5(newPwd.value.oPwd)
       const json = JSON.stringify(newPwd.value)
-      console.log(json)
       updatePwd(json).then(res => {
         showMsg(res)
         flush()

@@ -50,7 +50,7 @@ function md5_vm_test() {
     return MD5.hex_md5("abc") === "900150983cd24fb0d6963f7d28e17f72";
 }
 
-console.log(md5_vm_test())
+// console.log(md5_vm_test())
 
 /*
  * Calculate the MD5 of an array of little-endian words, and a bit length

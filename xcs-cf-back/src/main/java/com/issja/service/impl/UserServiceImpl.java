@@ -1,22 +1,17 @@
 package com.issja.service.impl;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.issja.entity.User;
 import com.issja.mapper.UserMapper;
 import com.issja.service.IUserService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.issja.utils.JwtUtils;
 import com.issja.utils.Result;
-import io.swagger.models.auth.In;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
-import java.util.Arrays;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -57,11 +52,25 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         // 判断用户名密码是否正确
         String password = (String) form.get("password");
         User user = userMapper.isLoginSuccess(account, password);
+        // 密码错误
         if (user == null) {
             return Result.error("密码错误", null);
         }
+        // 登录成功
+        user.setToken(JwtUtils.createToken(user.getId(),user.getUsername()));
         return Result.success("登录成功！", user);
     }
+
+    @Override
+    public Result checkToken(String token) {
+        boolean r = JwtUtils.checkToken(token);
+        if(r){
+            return Result.success("token有效",null);
+        }else{
+            return Result.error("token无效",null);
+        }
+    }
+
 
     @Override
     public void updateAvatar(MultipartFile file, Integer id) {
