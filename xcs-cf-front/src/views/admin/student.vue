@@ -26,7 +26,8 @@
                 max-height="75vh" style="width: 100%"
                 :header-cell-style="headStyle"
                 :cell-style="rowStyle"
-                @row-click="handleClick">
+                @row-click="handleClick"
+                @sort-change="sort">
         <!--        排序-->
         <el-table-column type="index" width="60" label="rank" v-if="isShowRank"/>
         <!--        复选框-->
@@ -69,7 +70,7 @@
       />
     </div>
   </div>
-  <!--  某一个用户的详情-->
+  <!--  某一个社员的详情-->
   <div class="detail">
     <el-dialog
         v-model="detailDialogVisible"
@@ -95,7 +96,7 @@
       </div>
     </el-dialog>
   </div>
-  <!--  所有用户的详情-->
+  <!--  所有社员的详情-->
   <div class="allDetail">
     <el-dialog
         v-model="allDetailDialogVisible"
@@ -117,7 +118,7 @@
       </div>
     </el-dialog>
   </div>
-  <!--  编辑用户信息-->
+  <!--  编辑社员信息-->
   <div class="edit">
     <el-dialog
         v-model="editDialogVisible"
@@ -206,7 +207,7 @@ export default {
         total.value = res.data.data.total;
       })
     }
-    // 获取所有用户信息
+    // 获取所有社员信息
     const getAll = () => {
       getAllStudent().then(res => {
         allUser.value = res.data.data;
@@ -217,6 +218,13 @@ export default {
           pageSizeArray.value[3] = maxNum.value
         }
       })
+    }
+    const sort=({ column})=>{
+      if(column.property==='score'){
+        isShowRank.value = pageSize.value === maxNum.value;
+      }else{
+        isShowRank.value=false
+      }
     }
     // 初始化页面
     getPage()
@@ -259,14 +267,14 @@ export default {
       }
     }
     // 显示详情
-    const totalScore = ref(0)//某一个用户的总分
-    const detail = ref({})//某一个用户的得分详情
+    const totalScore = ref(0)//某一个社员的总分
+    const detail = ref({})//某一个社员的得分详情
     const allDetail = ref({})
     const detailDialogVisible = ref(false)
     const detailDialogTitle = ref('')
     const allDetailDialogVisible = ref(false)
     const allDetailDialogTitle = ref('The Details of all people')
-    // 显示所有用户详情
+    // 显示所有社员详情
     const showAllDetail = () => {
       const loadingInstance = ElLoading.service({fullscreen: true})
       getAllStudentContests().then(res => {
@@ -275,7 +283,7 @@ export default {
         allDetailDialogVisible.value = true;
       })
     }
-    // 显示某一个用户的详情
+    // 显示某一个社员的详情
     const showDetail = (id) => {
       totalScore.value = allUser.value[id - 1].score
       detailDialogTitle.value = 'The Detail of ' +
@@ -328,7 +336,7 @@ export default {
         if(userInfo.value[i]===''){
           ElMessage({
             showClose:true,
-            message:"用户信息不能为空！",
+            message:"社员信息不能为空！",
             type:'error'
           })
           return;
@@ -338,7 +346,7 @@ export default {
         showMsg(res)
       })
     }
-    // 删除用户
+    // 删除社员
     const deleteUser = (id) => {
       ElMessageBox.confirm(
           '确认删除该社员所有信息?',
@@ -384,7 +392,8 @@ export default {
       showAllDetail,
       userInfo,
       cancelEdit,
-      confirmEdit
+      confirmEdit,
+      sort
     }
   }
 }

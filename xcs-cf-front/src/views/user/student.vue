@@ -119,7 +119,7 @@
 </template>
 
 <script>
-import {getAllStudentContests, getStudentContests, getStudentPage} from "@/api";
+import {getAllStudent, getAllStudentContests, getStudentContests, getStudentPage} from "@/api";
 import {ref} from "vue";
 import 'element-plus/dist/index.css'
 import {
@@ -162,10 +162,17 @@ export default {
       getStudentPage(currentPage.value, pageSize.value, value).then(res => {
         user.value = res.data.data.records;
         total.value = res.data.data.total;
-        if (total.value > maxNum.value)
-          maxNum.value = total.value
-        if (pageSizeArray.value.indexOf(maxNum.value) === -1) {
+      })
+    }
+    // 获取所有用户信息
+    const getAll = () => {
+      getAllStudent().then(res => {
+        allUser.value = res.data.data;
+        maxNum.value = allUser.value.length;
+        if (pageSizeArray.value.length === 3) {
           pageSizeArray.value.push(maxNum.value)
+        } else {
+          pageSizeArray.value[3] = maxNum.value
         }
       })
     }
@@ -178,10 +185,7 @@ export default {
     }
     // 初始化页面
     getPage()
-    // 获取所有用户信息
-    getStudentPage(1, 100).then(res => {
-      allUser.value = res.data.data.records;
-    })
+    getAll()
     // 分页+模糊查询
     const handleSearch = () => {
       getPage()
@@ -189,10 +193,10 @@ export default {
     // 分页相关操作
     const handleSizeChange = (val) => {
       pageSize.value = val;
+      isShowRank.value = pageSize.value === maxNum.value;
       getPage()
     }
     const handleCurrentChange = (val) => {
-      console.log(val)
       currentPage.value = val;
       getPage()
     }

@@ -66,7 +66,7 @@ public class ScoreServiceImpl extends ServiceImpl<ScoreMapper, Score> implements
         if(res==-2)return Result.error("输入A题数有误(大于总题数或小于0)",null);
         String account= (String) score.get("uAccount");
         // 用户信息不存在
-        if(studentMapper.isStudentExist(account)==0)return Result.error("用户信息不存在",null);
+        if(studentMapper.isStudentExist(account)==0)return Result.error("社员信息不存在",null);
         String name= (String) score.get("cName");
         score.put("score",res);
         if(scoreMapper.isExist(account,name)==0){

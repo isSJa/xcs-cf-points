@@ -28,7 +28,7 @@
     </div>
     <!--  ADD USER  -->
     <div class="add" style="background: rgba(33, 168, 109,0.9)">
-      <div class="title" style="color: #97fcd2">ADD USER</div>
+      <div class="title" style="color: #97fcd2">ADD STUDENT</div>
       <el-form
           label-position="top"
           label-width="100px"
@@ -47,7 +47,7 @@
           <el-input v-model="formUser.account"/>
         </el-form-item>
       </el-form>
-      <el-button style="margin: 20px" @click="handleAddUser(formUserRef)">ADD USER</el-button>
+      <el-button style="margin: 20px" @click="handleAddUser(formUserRef)">ADD STUDENT</el-button>
     </div>
     <!--  ADD CONTEST  -->
     <div class="add" style="background: rgba(217, 94, 74,0.9);position: relative">
