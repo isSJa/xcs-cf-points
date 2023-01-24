@@ -3,9 +3,8 @@
 </template>
 
 <script lang="ts">
-import userIndex from "@/views/user/index.vue";
-import {ref} from "vue";
 import {useRouter} from "vue-router";
+import {getUser} from "@/api";
 
 export default {
   name: "app",
@@ -16,11 +15,14 @@ export default {
     if (user == null)
       router.push('login-and-register')
     else {
-      const userObject = JSON.parse(user)
-      if (userObject.type === 1)
-        router.push('admin')
-      else
-        router.push('user')
+      let userObject = JSON.parse(user)
+      getUser(userObject.id).then(res=>{
+        userObject=res.data.data
+        if (userObject.type === 1)
+          router.push('/admin')
+        else
+          router.push('/user')
+      })
     }
     return {}
   }

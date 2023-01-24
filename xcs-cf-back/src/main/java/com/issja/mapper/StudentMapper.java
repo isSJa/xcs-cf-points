@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.issja.entity.Score;
 import com.issja.entity.Student;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.issja.entity.StudentContestDetail;
 import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
@@ -13,7 +14,7 @@ import java.util.Map;
 
 /**
  * <p>
- * 用户表 Mapper 接口
+ * 社员表 Mapper 接口
  * </p>
  *
  * @author issja
@@ -38,7 +39,7 @@ public interface StudentMapper extends BaseMapper<Student> {
 
 
     /**
-     * 用户账号是否存在
+     * 社员账号是否存在
      * @param account
      * @return
      */
@@ -46,8 +47,8 @@ public interface StudentMapper extends BaseMapper<Student> {
     public Integer isStudentExist(@Param("account") String account);
 
     /**
-     * 获取某一个用户的所有比赛记录
+     * 获取某一个社员的所有比赛记录
      * @return
      */
-    public List<Score> getStudentScores(@Param("id")Integer id);
+    public List<StudentContestDetail> getStudentScores(@Param("id")Integer id);
 }

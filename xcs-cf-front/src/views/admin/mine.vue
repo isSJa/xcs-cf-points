@@ -79,7 +79,6 @@ import {
   ElButton,
   ElUpload,
   ElMessage,
-  ElMessageBox,
   ElAvatar,
   ElForm,
   ElFormItem,
@@ -88,8 +87,7 @@ import {
   ElDialog
 } from "element-plus";
 import {ref} from "vue";
-import {UploadProps} from "element-plus";
-import {changePwd, getUser, updatePwd, updateStudent, updateUser} from "@/api";
+import {getUser, updatePwd, updateUser} from "@/api";
 import MD5 from "@/utils/md5";
 
 export default {
@@ -181,6 +179,13 @@ export default {
           return;
         }
       }
+      // 用户名校验规则
+      const username=newUser.value.username;
+      let regExpName=/^[\u4e00-\u9fa5\w]{1,20}$/
+      if(!regExpName.test(username)){
+        showMsg2("用户名需要小于20位","error")
+        return;
+      }
       const json = JSON.stringify(newUser.value)
       updateUser(json).then(res => {
         showMsg(res)
@@ -210,7 +215,6 @@ export default {
         }
       }
       // 密码规则验证
-      const oPwd = newPwd.value.oPwd;
       const nPwd = newPwd.value.nPwd;
       let re = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/
       if (!re.test(nPwd)) {
@@ -280,7 +284,7 @@ export default {
 
 .bg-blue {
   margin-top: 50px;
-  width: 100%;
+  width: 92.921%;
   height: 600px;
   filter: blur(10px);
   position: absolute;

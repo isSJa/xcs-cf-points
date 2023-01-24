@@ -78,7 +78,6 @@ import {
   ElButton,
   ElUpload,
   ElMessage,
-  ElMessageBox,
   ElAvatar,
   ElForm,
   ElFormItem,
@@ -87,8 +86,7 @@ import {
   ElDialog
 } from "element-plus";
 import {ref} from "vue";
-import {UploadProps} from "element-plus";
-import {changePwd, getUser, updatePwd, updateStudent, updateUser} from "@/api";
+import {getUser, updatePwd, updateUser} from "@/api";
 import MD5 from "@/utils/md5";
 
 export default {
@@ -247,7 +245,7 @@ export default {
 }
 .bg-blue {
   margin-top: 50px;
-  width: 93%;
+  width: 92.921%;
   height: 600px;
   filter: blur(10px);
   position: absolute;

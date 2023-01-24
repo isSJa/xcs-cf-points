@@ -4,7 +4,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.issja.entity.Student;
 import com.issja.entity.StudentContestDetail;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.issja.entity.AllStudentContestsDetail;
+import com.issja.entity.StudentAllContestsDetail;
 
 import java.util.List;
 import java.util.Map;
@@ -43,5 +43,5 @@ public interface IStudentService extends IService<Student> {
      * 获取所有社员的所有比赛信息
      * @return
      */
-    public List<AllStudentContestsDetail> getAllStudentScores();
+    public List<StudentAllContestsDetail> getAllStudentScores();
 }

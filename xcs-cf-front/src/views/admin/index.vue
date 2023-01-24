@@ -4,7 +4,7 @@
       <!--      头部-->
       <el-header class="head">
         <div class="img-box">
-          <img src="../../assets/xcs-cyan.png" alt="" class="img-big" @click="moveToIndex">
+          <img src="../../assets/xcs-cyan.png" alt="" class="img-big" @click="moveToOut">
         </div>
         <div class="hello">Hi! {{ user.username }}~</div>
         <div class="avatar">
@@ -85,7 +85,6 @@ import MainMain from "@/main.vue";
 import {ref} from "vue";
 import {useRouter} from "vue-router";
 import router from "@/router";
-import {getUser} from "@/api";
 
 export default {
   name: "adminIndex",
@@ -135,9 +134,10 @@ export default {
       if (command === 'login-and-register') {
         sessionStorage.removeItem('user')
       }
+      moveToOut()
       router.push('/' + command)
     }
-    const moveToIndex = () => {
+    const moveToOut = () => {
       let nav = document.querySelector('.nav-menu');
       if (nav != null) {
         let lis = nav.children;
@@ -156,7 +156,7 @@ export default {
       handleSelect,
       user,
       handleCommand,
-      moveToIndex,
+      moveToOut,
     }
   }
 }
@@ -190,9 +190,8 @@ export default {
 
   .hello {
     position: absolute;
-    right: 90px;
+    right: 130px;
     top: 30px;
-    width: 100px;
     height: 100px;
     font-weight: bold;
     color: #4d4d4d;

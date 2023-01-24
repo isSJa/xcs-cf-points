@@ -119,14 +119,13 @@
 </template>
 
 <script>
-import {getAllStudentContests, getStudentContests, getStudentInfo, getStudentPage, updateStudent} from "@/api";
+import {getAllStudentContests, getStudentContests, getStudentPage} from "@/api";
 import {ref} from "vue";
 import 'element-plus/dist/index.css'
 import {
   ElButton,
   ElDialog,
-  ElForm, ElFormItem,
-  ElInput, ElLoading, ElMessage,
+  ElInput, ElLoading,
   ElPagination,
   ElTable,
   ElTableColumn,

@@ -93,6 +93,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IU
         try {
             file.transferTo(dest);
             // 修改数据库中数据
+            // user.setImgurl(filePath + fileName);
+            // 配置虚拟路径头
             user.setImgurl("/file/" + fileName);
             userMapper.updateById(user);
         } catch (IOException e) {

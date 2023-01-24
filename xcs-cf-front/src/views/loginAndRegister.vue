@@ -4,7 +4,7 @@
       <form @keyup.enter="register">
         <h2 class="title">Create Account</h2>
         <span class="text">Fill in the form below to register</span>
-        <input class="form__input" type="text" placeholder="用户名" v-model="registerForm.username"/>
+        <input class="form__input" type="text" placeholder="用户名，小于20位" v-model="registerForm.username"/>
         <input class="form__input" type="text" placeholder="邮箱" v-model="registerForm.email"/>
         <input class="form__input" type="password" placeholder="密码需在6-12位，且含数字和英文字母"
                v-model="registerForm.password"/>
@@ -102,6 +102,9 @@ export default {
         }
         if (res.data.msg === '密码错误') {
           loginForm.password = ''
+        }else if(res.data.code===500){
+          loginForm.account=''
+          loginForm.password = ''
         }
       })
     }
@@ -113,11 +116,18 @@ export default {
           return;
         }
       }
+      // 用户名校验规则
+      const username=registerForm.username;
+      let regExpName=/^[\u4e00-\u9fa5\w]{1,20}$/
+      if(!regExpName.test(username)){
+        showMsg("用户名需要小于20位","error")
+        return;
+      }
       // 密码规则验证
       const pwd = registerForm.password;
       const conPwd = registerForm.confirmPassword;
-      let re = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/
-      if (!re.test(pwd)) {
+      let regExpPwd = /^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,12}$/
+      if (!regExpPwd.test(pwd)) {
         showMsg("密码需在6-12位，且含数字和英文字母", "error")
         return;
       }
@@ -139,6 +149,9 @@ export default {
         showMsg(res.data.msg, type)
         if (type === 'success') {
           isLogin.value = !isLogin.value
+        }else{
+          registerForm.password=''
+          registerForm.confirmPassword=''
         }
       })
     }

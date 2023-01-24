@@ -8,7 +8,6 @@
 </template>
 
 <script>
-import {ElButton} from 'element-plus'
 import 'element-plus/dist/index.css'
 import {useRouter} from "vue-router";
 

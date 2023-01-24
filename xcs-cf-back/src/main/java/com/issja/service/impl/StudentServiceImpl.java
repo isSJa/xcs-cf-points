@@ -13,10 +13,11 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 /**
  * <p>
- * 用户表 服务实现类
+ * 社员表 服务实现类
  * </p>
  *
  * @author issja
@@ -43,61 +44,51 @@ public class StudentServiceImpl extends ServiceImpl<StudentMapper, Student> impl
 
     @Override
     public List<StudentContestDetail> getStudentScores(int id) {
-        List<Score> studentScores = studentMapper.getStudentScores(id);
-        List<StudentContestDetail> studentContestDetails = new ArrayList<>();
-        for (Score score : studentScores) {
-            if (score.getANum() != null) {
-                StudentContestDetail studentContestDetail = new StudentContestDetail();
-                studentContestDetail.setCid(score.getCid());
-                studentContestDetail.setANum(score.getANum());
-                studentContestDetail.setDuring(score.getDuringscore());
-                studentContestDetail.setAfter(score.getAfterscore());
-                QueryWrapper<Contests> queryWrapper = new QueryWrapper<>();
-                queryWrapper.select("name");
-                queryWrapper.eq("id", score.getCid());
-                studentContestDetail.setCname(
-                        contestsMapper.selectOne(queryWrapper).getName());
-                studentContestDetails.add(studentContestDetail);
-            }
-        }
-        return studentContestDetails;
+        return studentMapper.getStudentScores(id);
     }
 
     @Override
-    public List<AllStudentContestsDetail> getAllStudentScores() {
-        Integer studentCount = studentMapper.selectCount(null);
+    public List<StudentAllContestsDetail> getAllStudentScores() {
+        // 所有社员信息
+        List<Student> studentList = studentMapper.selectList(null);
         Integer contestCount = contestsMapper.selectCount(null);
-        List<AllStudentContestsDetail> allstudentContestsDetailList = new ArrayList<>();
-        for (int i = 1; i <= studentCount; i++) {
-            AllStudentContestsDetail allstudentContestsDetail = new AllStudentContestsDetail();
-            List<StudentContestDetail> studentContestDetailListBefore = getStudentScores(i);
-            List<StudentContestDetail> studentContestDetailList = new ArrayList<>(studentContestDetailListBefore);
-            allstudentContestsDetail.setUid(i);
-            QueryWrapper<Student> queryWrapper = new QueryWrapper<>();
-            queryWrapper.select("name");
-            queryWrapper.eq("id", i);
-            allstudentContestsDetail.setUname(studentMapper.selectOne(queryWrapper).getName());
-            // 求出doList和contestDetail，没有的值附0
+        // 所有比赛信息
+        List<Contests> contestsList = contestsMapper.selectList(null);
+        // 需要返回的社员竞赛详情集合
+        List<StudentAllContestsDetail> allstudentAllContestsDetailList = new ArrayList<>();
+        for (Student student:studentList) {
+            // 一个社员的所有竞赛数据
+            StudentAllContestsDetail allstudentAllContestsDetail = new StudentAllContestsDetail();
+            // 获取这个社员的所有竞赛数据（只含A过的竞赛）
+            List<StudentContestDetail> studentContestDetailListBefore = getStudentScores(student.getId());
+            // 未A过的竞赛赋值为null，要用foreach遍历，因此再开一个list存竞赛数据
+            List<StudentContestDetail> studentContestDetailList = new ArrayList<>();
+            // 赋值id和uname
+            allstudentAllContestsDetail.setUid(student.getId());
+            allstudentAllContestsDetail.setUname(student.getName());
+            // 求出doList和contestDetail，没有的值附null和0
             List<Integer> doList = new ArrayList<>();
-            int j = 1;
-            for (StudentContestDetail d : studentContestDetailListBefore) {
-                while (j < d.getCid()) {
+            int index=0;
+            for(Contests contest:contestsList){
+                if(index==studentContestDetailListBefore.size())break;
+                if(Objects.equals(contest.getId(), studentContestDetailListBefore.get(index).getCid())){
+                    doList.add(1);
+                    studentContestDetailList.add(studentContestDetailListBefore.get(index));
+                    index++;
+                }else{
                     doList.add(0);
-                    studentContestDetailList.add(j-1,null);
-                    j++;
+                    studentContestDetailList.add(null);
                 }
-                doList.add(1);
-                j++;
             }
-            while (j <= contestCount) {
+            while(studentContestDetailList.size()<contestsList.size()){
                 doList.add(0);
-                studentContestDetailList.add(j-1,null);
-                j++;
+                studentContestDetailList.add(null);
             }
-            allstudentContestsDetail.setContestDetail(studentContestDetailList);
-            allstudentContestsDetail.setDoList(doList);
-            allstudentContestsDetailList.add(allstudentContestsDetail);
+            // 赋值doList和contestDetail
+            allstudentAllContestsDetail.setContestDetail(studentContestDetailList);
+            allstudentAllContestsDetail.setDoList(doList);
+            allstudentAllContestsDetailList.add(allstudentAllContestsDetail);
         }
-        return allstudentContestsDetailList;
+        return allstudentAllContestsDetailList;
     }
 }

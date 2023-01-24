@@ -10,7 +10,7 @@ import java.util.List;
  * @Time ： 2023/1/16 23:56
  **/
 @Data
-public class AllStudentContestsDetail {
+public class StudentAllContestsDetail {
     private Integer uid;
     private String uname;
     private List<StudentContestDetail> contestDetail;

@@ -35,7 +35,9 @@
         width="500px"
         style="position: relative;height: 490px"
         @keyup.enter="confirmEdit(formEditRef)">
-      <div style="margin-bottom: 20px;line-height: 25px">注意修改比赛信息不会改变社员积分，若想让积分变化，请删除该比赛后重新录入</div>
+      <div style="margin-bottom: 20px;line-height: 25px">
+        注意修改比赛信息不会改变社员积分，若想让积分变化，请删除该比赛后重新录入
+      </div>
       <el-form
           label-position="top"
           label-width="100px"
@@ -78,6 +80,7 @@
 </template>
 
 <script lang="ts">
+/* eslint-disable */
 import 'element-plus/dist/index.css'
 import {
   ElButton, ElDatePicker,
@@ -89,9 +92,10 @@ import {
   ElMessageBox, ElRadio, ElRadioGroup,
   ElTooltip
 } from "element-plus";
-import {addContest, getStudentInfo, removeContest, updateContest, updateStudent} from "@/api";
+import {removeContest, updateContest} from "@/api";
 import {reactive, ref} from "vue";
-import type { FormInstance, FormRules } from 'element-plus'
+import type {FormInstance, FormRules} from 'element-plus'
+
 export default {
   name: "contestCard",
   props: ['contest', 'type'],
@@ -106,7 +110,7 @@ export default {
     ElRadioGroup,
     ElDatePicker,
   },
-  setup(props: any, {emit}: { emit: any }) {
+  setup(props: { contest: { time: string,id:number } }, {emit}: { emit: any }) {
     const maxLen = 40;
     // 计算赛后补题（7天后）的日期
     const after7 = () => {
@@ -218,7 +222,7 @@ export default {
 }
 
 .bg {
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0 3px 8px;
   background-color: #1ab6ff;
   width: 300px;
   height: 200px;
@@ -266,7 +270,7 @@ export default {
   .total {
     position: absolute;
     left: 270px;
-    top: 0px;
+    top: 0;
     color: #1782c6;
     font-size: 25px;
     margin-left: 20px;

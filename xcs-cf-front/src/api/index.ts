@@ -1,5 +1,4 @@
 import http from "@/utils/http";
-import {h} from "vue";
 
 //添加分数
 export const addScore = (json: string) => {
@@ -128,16 +127,6 @@ export const deleteStudent=(id:number)=>{
     return http({
         method:'delete',
         url:'/student/'+id
-    })
-}
-// 更新头像
-export const changeAvatar=(file:any)=>{
-    return http({
-        method:'post',
-        url:'/user/upload-avatar',
-        params:{
-            file:file
-        }
     })
 }
 // 获取用户信息

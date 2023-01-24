@@ -8,7 +8,6 @@ import com.issja.utils.Result;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -25,13 +24,13 @@ public class StudentController {
     @Autowired
     private IStudentService studentService;
 
-    // 获取某个用户信息
+    // 获取某个社员信息
     @GetMapping("/{id}")
     public Result getOne(@PathVariable Integer id) {
         return Result.success(studentService.getById(id));
     }
 
-    //增加用户
+    //增加社员
     @PostMapping()
     public Result addOne(@RequestBody Student student) {
         boolean r = studentService.save(student);
@@ -42,7 +41,7 @@ public class StudentController {
         }
     }
 
-    // 修改用户信息
+    // 修改社员信息
     @PutMapping()
     public Result modifyOne(@RequestBody Student student) {
         boolean r = studentService.updateById(student);
@@ -74,19 +73,19 @@ public class StudentController {
         return Result.success(page);
     }
 
-    // 获取所有用户信息
+    // 获取所有社员信息
     @GetMapping()
     public Result getAll() {
         return Result.success(studentService.getAllStudentIncludesScore());
     }
 
-    //获取某一个用户的所有比赛数据
+    //获取某一个社员的所有比赛数据
     @GetMapping("/contests/{id}")
     public Result getStudentScores(@PathVariable Integer id) {
         return Result.success(studentService.getStudentScores(id));
     }
 
-    //获取所有用户的比赛信息（包括每场比赛情况）
+    //获取所有社员的比赛信息（包括每场比赛情况）
     @GetMapping("/contests")
     public Result getAllStudentScores() {
         return Result.success(studentService.getAllStudentScores());

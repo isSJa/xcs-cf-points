@@ -13,10 +13,9 @@
         group by u.id
         order by u.id asc
     </select>
-    <select id="getStudentScores" resultType="com.issja.entity.Score">
-        select c.id cid, duringScore, afterScore, aNum
-        from contests c
-                 left join (select *
+    <select id="getStudentScores" resultType="com.issja.entity.StudentContestDetail">
+        select c.id cid, c.name cname, duringScore during, afterScore after, aNum
+        from contests c join (select *
                             from student u
                                      join score s on u.id = s.uid
                             where u.id = #{id}) temp
