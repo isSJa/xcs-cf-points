@@ -156,11 +156,11 @@ export default {
       flush()
     }
     const beforeAvatarUpload = (rawFile) => {
-      if (rawFile.type !== 'image/jpeg') {
-        ElMessage.error('Avatar picture must be JPG format!')
+      if (rawFile.type !== 'image/jpeg' && rawFile.type !== 'image/png') {
+        ElMessage.error('头像必须是png/jpg/jpe格式!')
         return false
-      } else if (rawFile.size / 1024 / 1024 > 2) {
-        ElMessage.error('Avatar picture size can not exceed 2MB!')
+      } else if (rawFile.size / 1024 / 1024 > 1) {
+        ElMessage.error('头像文件大小不能超过1MB!')
         return false
       }
       return true
@@ -180,10 +180,10 @@ export default {
         }
       }
       // 用户名校验规则
-      const username=newUser.value.username;
-      let regExpName=/^[\u4e00-\u9fa5\w]{1,20}$/
-      if(!regExpName.test(username)){
-        showMsg2("用户名需要小于20位","error")
+      const username = newUser.value.username;
+      let regExpName = /^[\u4e00-\u9fa5\w]{1,20}$/
+      if (!regExpName.test(username)) {
+        showMsg2("用户名需要小于20位", "error")
         return;
       }
       const json = JSON.stringify(newUser.value)
