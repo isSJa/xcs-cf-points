@@ -4,7 +4,7 @@
 
 ## backgroud
 
-![](doc-img\notice.jpg)
+![notice](./doc-img/notice.jpg)
 
 ## purpose
 
@@ -70,52 +70,50 @@ This project is to help the admin to manage the students who belongs to XCS and 
 
 ## preview
 
-the interface of user
+#### the interface of user
 
-![](doc-img\user-index.jpg)
+![user-index](./doc-img/user-index.jpg)
 
-![](doc-img\user-index2.jpg)
+![user-index2](./doc-img/user-index2.jpg)
 
-![](doc-img\user-student.jpg)
+![user-student](./doc-img/user-student.jpg)
 
-![](doc-img\user-student-sort.jpg)
+![user-student-sort](./doc-img/user-student-sort.jpg)
 
-![](doc-img\user-student-detai.jpg)
+![user-student-detai](./doc-img/user-student-detai.jpg)
 
-![](doc-img\user-student-search.jpg)
+![user-student-search](./doc-img/user-student-search.jpg)
 
-![](doc-img\user-student-overall.jpg)
+![user-student-overall](./doc-img/user-student-overall.jpg)
 
-![](doc-img\user-contest.jpg)
+![user-contest](./doc-img/user-contest.jpg)
 
-![](doc-img\user-contest-detail.jpg)
+![user-contest-detail](./doc-img/user-contest-detail.jpg)
 
-![](doc-img\user-rules.jpg)
+![user-rules](./doc-img/user-rules.jpg)
 
-![](doc-img\user-rules2.jpg)
+![user-personal](./doc-img/user-personal.jpg)
 
-![](doc-img\user-personal.jpg)
+#### the interface of admin
 
-the interface of admin
+![admin-index](./doc-img/admin-index.jpg)
 
-![](doc-img\admin-index.jpg)
+![admin-add1](./doc-img/admin-add1.jpg)
 
-![](doc-img\admin-add1.jpg)
+![admin-add2](./doc-img/admin-add2.jpg)
 
-![](doc-img\admin-add2.jpg)
+![admin-student](./doc-img/admin-student.jpg)
 
-![](doc-img\admin-student.jpg)
+![admin-student-edit](./doc-img/admin-student-edit.jpg)
 
-![](doc-img\admin-student-edit.jpg)
+![admin-student-delete](./doc-img/admin-student-delete.jpg)
 
-![](doc-img\admin-student-delete.jpg)
+![admin-contest](./doc-img/admin-contest.jpg)
 
-![](doc-img\admin-contest.jpg)
+![admin-contest-detail](./doc-img/admin-contest-detail.jpg)
 
-![](doc-img/admin-contest-detail.jpg)
+![admin-contest-edit](./doc-img/admin-contest-edit.jpg)
 
-![](doc-img\admin-contest-edit.jpg)
+![admin-contest-delete](./doc-img/admin-contest-delete.jpg)
 
-![](doc-img\admin-contest-delete.jpg)
-
-![](doc-img/admin-personal.jpg)
+![admin-personal](./doc-img/admin-personal.jpg)
