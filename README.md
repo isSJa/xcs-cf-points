@@ -1,5 +1,4 @@
 # XCS-CF Competition System
-=======
 
 > Made by isSJa
 
@@ -118,5 +117,3 @@ This project is to help the admin to manage the students who belongs to XCS and 
 ![admin-contest-delete](./doc-img/admin-contest-delete.jpg)
 
 ![admin-personal](./doc-img/admin-personal.jpg)
-
-> > > > > > > 
